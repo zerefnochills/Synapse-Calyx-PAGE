@@ -168,7 +168,15 @@ section{padding:92px 28px;position:relative;z-index:1}
 .keywords{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;padding:0;list-style:none}
 .keywords li{border:1px solid var(--muted);padding:.45rem .8rem;border-radius:999px;background:rgba(255,255,255,.03)}
 .about-card{border:1px solid var(--muted);border-radius:var(--radius-lg);display:grid;place-items:center;background:rgba(255,255,255,.03);overflow:hidden}
-.about-card img{width:800px;height:240px;border-radius:28px;opacity:.95}
+.about-card img{
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 18px;
+  background-color: rgba(0,0,0,.02); 
+}
+
 
 
 .contact-info-only{display:block}
