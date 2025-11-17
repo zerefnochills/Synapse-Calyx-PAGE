@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  
   const enterBtn = document.getElementById('enterBtn');
   const landingPage = document.getElementById('landingPage');
   const mainContent = document.getElementById('mainContent');
@@ -10,24 +9,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('section');
   const yearEl = document.getElementById('year');
 
-  
   requestAnimationFrame(() => landingPage.classList.add('enter'));
 
-  
   if (enterBtn) {
     enterBtn.addEventListener('click', () => {
       landingPage.style.opacity = '0';
       setTimeout(() => {
         landingPage.style.display = 'none';
-        mainContent.style.display = 'block';
-        void mainContent.offsetWidth; 
-        mainContent.classList.add('fade-in');
-        queueHeroSequence();
+        if (mainContent) {
+          mainContent.style.display = 'block';
+          void mainContent.offsetWidth; // force reflow
+          mainContent.classList.add('fade-in');
+          queueHeroSequence();
+        }
       }, 800);
     });
   }
 
-  
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
       const open = navMenu.classList.toggle('open');
@@ -39,14 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
   }
 
-  
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       const href = link.getAttribute('href');
       if (href && href.startsWith('#')) {
-        e.preventDefault();
         const target = document.querySelector(href);
-        const navH = nav.offsetHeight || 0;
+        if (!target) return; // guard: target might not exist
+        e.preventDefault();
+        const navH = nav ? (nav.offsetHeight || 0) : 0;
         const y = target.getBoundingClientRect().top + window.scrollY - (navH + 8);
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
@@ -59,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
         const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
         if (link) link.classList.add('active');
-        entry.target.classList.add('in'); 
+        entry.target.classList.add('in');
       }
     });
   }, { root: null, rootMargin: '-40% 0px -50% 0px', threshold: 0 });
@@ -69,41 +67,47 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(s);
   });
 
-  
   function queueHeroSequence(){
     const seqEls = document.querySelectorAll('.reveal-seq');
     seqEls.forEach((el,i) => {
       setTimeout(()=> el.classList.add('in'), 150 + i*120);
     });
   }
- 
-  if (getComputedStyle(mainContent).display !== 'none') queueHeroSequence();
 
-  
+  if (mainContent && getComputedStyle(mainContent).display !== 'none') queueHeroSequence();
+
   const counters = document.querySelectorAll('.num[data-count]');
-  const countObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.count, 10);
-        let n = 0;
-        const step = Math.max(1, Math.ceil(target / 60));
-        const tick = () => {
-          n = Math.min(target, n + step);
-          el.textContent = n.toString();
-          if (n < target) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        countObs.unobserve(el);
-      }
-    });
-  }, { threshold: 0.6 });
-  counters.forEach(c => countObs.observe(c));
+  if (counters.length) {
+    const countObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          // parseInt handles strings like "10+" or "99%". fallback to 0 if unparsable.
+          const parsed = parseInt(el.dataset.count, 10);
+          const target = Number.isFinite(parsed) ? parsed : 0;
+          if (!target || target <= 0) {
+            el.textContent = String(parsed || 0);
+            countObs.unobserve(el);
+            return;
+          }
+          let n = 0;
+          const step = Math.max(1, Math.ceil(target / 60));
+          const tick = () => {
+            n = Math.min(target, n + step);
+            el.textContent = n.toString();
+            if (n < target) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          countObs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(c => countObs.observe(c));
+  }
 
- 
   const tilts = document.querySelectorAll('.tilt');
   const maxTilt = 8;
-  const resetTilt = el => el.style.transform = '';
+  const resetTilt = el => { el.style.transform = ''; };
   tilts.forEach(el => {
     el.addEventListener('mousemove', e => {
       const r = el.getBoundingClientRect();
@@ -117,16 +121,16 @@ document.addEventListener('DOMContentLoaded', () => {
     el.addEventListener('touchend', () => resetTilt(el), { passive: true });
   });
 
- 
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  
   const gridCanvas = document.getElementById('bg-grid');
   if (gridCanvas) {
-    const ctx = gridCanvas.getContext('2d');
+    const ctx = gridCanvas.getContext && gridCanvas.getContext('2d');
+    if (!ctx) return;
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
     const draw = () => {
-      const w = innerWidth, h = innerHeight;
+      const w = window.innerWidth || document.documentElement.clientWidth;
+      const h = window.innerHeight || document.documentElement.clientHeight;
       gridCanvas.width = w * DPR;
       gridCanvas.height = h * DPR;
       gridCanvas.style.width = w + 'px';
