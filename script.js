@@ -1,4 +1,4 @@
-// Enhanced script — full file
+
 document.addEventListener('DOMContentLoaded', () => {
   try {
     const enterBtn = document.getElementById('enterBtn');
@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const workCases = Array.from(document.querySelectorAll('.work-grid .case'));
     const particlesContainer = document.getElementById('particles');
 
-    // safe set ripple attribute
+
     document.querySelectorAll('.btn').forEach(b => b.setAttribute('data-ripple',''));
 
-    // landing intro (guarded) — do not force inline opacity:0
+
     if (landingPage) {
       requestAnimationFrame(() => {
         landingPage.classList.add('enter');
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('landingPage element not found — skipping landing intro');
     }
 
-    // Enter button (guarded)
+  
     if (enterBtn && landingPage) {
       enterBtn.addEventListener('click', () => {
         landingPage.classList.add('fade-out');
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!enterBtn) console.warn('enterBtn not found');
     }
 
-    // particles initializer (will only run when called)
+  
     function initializeParticles() {
       if (!particlesContainer) {
         console.warn('particles container not found');
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // mobile nav toggle (guarded)
+  
     if (navToggle && navMenu) {
       navToggle.addEventListener('click', () => {
         const open = navMenu.classList.toggle('open');
@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }));
     }
 
-    // smooth scroll anchors (safe)
     navLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
@@ -115,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // active nav on scroll
+  
     window.addEventListener('scroll', () => {
       let current = '';
       sections.forEach(section => {
@@ -132,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, { passive: true });
 
-    // reveal observer
+ 
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -153,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { root: null, rootMargin: '-15% 0px -15% 0px', threshold: 0.12 });
     document.querySelectorAll('.reveal, .reveal-seq').forEach(el => revealObserver.observe(el));
 
-    // hero sequence (safe)
+  
     function queueHeroSequence(){
       const seqEls = document.querySelectorAll('.hero .reveal-seq');
       seqEls.forEach((el, i) => {
@@ -166,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (mainContent && getComputedStyle(mainContent).display !== 'none') queueHeroSequence();
 
-    // counters
+ 
     const counters = document.querySelectorAll('.num[data-count]');
     if (counters.length) {
       const cntObs = new IntersectionObserver((entries) => {
@@ -198,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       counters.forEach(c => cntObs.observe(c));
     }
 
-    // tilt effect
+  
     const tilts = document.querySelectorAll('.tilt');
     const maxTilt = 8;
     const resetTilt = el => {
@@ -221,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // bg grid canvas (guarded)
+ 
     const gridCanvas = document.getElementById('bg-grid');
     if (gridCanvas) {
       const ctx = (gridCanvas.getContext && gridCanvas.getContext('2d')) || null;
@@ -266,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // ripple effect
     document.addEventListener('pointerdown', e => {
       const b = e.target.closest('.btn[data-ripple]');
       if (!b) return;
@@ -288,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => ripple.remove(), 600);
     });
 
-    // hover float effects
+ 
     document.querySelectorAll('.btn.primary').forEach(btn => {
       btn.addEventListener('mouseenter', function() {
         this.style.animation = 'btn-float 0.6s ease-out';
@@ -300,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // lightbox (guarded)
+
     const lightbox = document.getElementById('lightbox');
     const lbImg = document.getElementById('lb-img');
     const lbCaption = document.getElementById('lb-caption');
@@ -364,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
       openLightbox(activeIndex);
     }
 
-    // attach work case handlers (safe)
+  
     workCases.forEach((c, idx) => {
       c.style.cursor = 'pointer';
       c.addEventListener('click', (ev) => {
@@ -398,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // social buttons: open external links reliably
+  
     document.querySelectorAll('.social-btn').forEach(btn => {
       if (!btn.hasAttribute('role')) btn.setAttribute('role', 'link');
       if (!btn.hasAttribute('tabindex')) btn.setAttribute('tabindex', '0');
@@ -420,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // swipe lightbox (guarded)
+  
     (function swipeLB(){
       let startX = 0, startY = 0;
       const vp = document.querySelector('.lb-viewport');
@@ -458,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })();
 
-    // dynamic CSS keyframes (unchanged)
+    
     const style = document.createElement('style');
     style.textContent = `
       @keyframes ripple-burst {
@@ -472,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // lazyload images
+    
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

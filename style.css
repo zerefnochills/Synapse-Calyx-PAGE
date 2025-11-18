@@ -57,21 +57,20 @@ body{
     will-change:transform,box-shadow;
     overflow:hidden;
 
-    /* Fix: make sure buttons and their text sit above decorative layers */
+  
     z-index: 20;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }
-/* ensure button inner text/icon remain above glows / pseudo elements */
 .btn > * { position: relative; z-index: 30; pointer-events: none; }
-/* allow inner interactive elements (if any) to still receive pointer events explicitly */
+
 .btn a, .btn button { pointer-events: auto; }
 
-/* keep decorative pseudo elements under the text */
+
 .btn::before { z-index: 10; }
 .btn.btn-3d::after { z-index: 5; }
 
-/* keep glow / border visuals non-interactive and behind text */
+
 .btn .btn-glow,
 .btn .btn-border { position:absolute; z-index:12; pointer-events:none; }
 .btn:focus{outline:3px solid rgba(188,184,255,.12);outline-offset:4px;border-radius:12px}
