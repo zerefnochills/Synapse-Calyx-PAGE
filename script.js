@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
   try {
     const enterBtn = document.getElementById('enterBtn');
@@ -12,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const workCases = Array.from(document.querySelectorAll('.work-grid .case'));
     const particlesContainer = document.getElementById('particles');
 
-
     document.querySelectorAll('.btn').forEach(b => b.setAttribute('data-ripple',''));
-
 
     if (landingPage) {
       requestAnimationFrame(() => {
@@ -29,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('landingPage element not found — skipping landing intro');
     }
 
-  
     if (enterBtn && landingPage) {
       enterBtn.addEventListener('click', () => {
         landingPage.classList.add('fade-out');
@@ -51,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!enterBtn) console.warn('enterBtn not found');
     }
 
-  
+    // OPTIMIZED: Reduced particle count & use will-change
     function initializeParticles() {
       if (!particlesContainer) {
         console.warn('particles container not found');
         return;
       }
       particlesContainer.innerHTML = '';
-      const particleCount = window.innerWidth > 768 ? 30 : 15;
+      const particleCount = window.innerWidth > 768 ? 15 : 8; // Reduced from 30/15
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
@@ -68,11 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         particle.style.top = `${Math.random() * 100}%`;
         particle.style.animationDelay = `${Math.random() * 20}s`;
         particle.style.animationDuration = `${20 + Math.random() * 20}s`;
+        particle.style.willChange = 'transform';
         particlesContainer.appendChild(particle);
       }
     }
 
-  
     if (navToggle && navMenu) {
       navToggle.addEventListener('click', () => {
         const open = navMenu.classList.toggle('open');
@@ -114,24 +110,28 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-  
+    // OPTIMIZED: Debounce scroll event
+    let scrollTimeout;
     window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (window.pageYOffset >= sectionTop - 200) {
-          current = section.getAttribute('id');
-        }
-      });
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-          link.classList.add('active');
-        }
-      });
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (window.pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      }, 50);
     }, { passive: true });
 
- 
+    // OPTIMIZED: Use requestAnimationFrame for reveal observer
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -139,12 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
           const children = entry.target.querySelectorAll('.reveal-seq');
           if (children.length) {
             children.forEach((el, i) => {
-              setTimeout(()=> {
+              requestAnimationFrame(() => {
                 el.classList.add('in');
                 if (el.classList.contains('tag-glow') || el.classList.contains('h1-glow') || el.classList.contains('h2-glow') || el.classList.contains('p-glow')) {
                   el.style.animation = 'glow-pulse-effect 0.6s ease-out';
                 }
-              }, 100 + i * 80);
+              });
             });
           }
         }
@@ -152,20 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { root: null, rootMargin: '-15% 0px -15% 0px', threshold: 0.12 });
     document.querySelectorAll('.reveal, .reveal-seq').forEach(el => revealObserver.observe(el));
 
-  
     function queueHeroSequence(){
       const seqEls = document.querySelectorAll('.hero .reveal-seq');
       seqEls.forEach((el, i) => {
-        setTimeout(()=> {
-          el.classList.add('in');
-          el.style.animation = `fadeInUp 0.8s ease forwards`;
-          el.style.animationDelay = `${i * 0.1}s`;
-        }, 100 + i * 100);
+        el.style.animation = `fadeInUp 0.8s ease forwards`;
+        el.style.animationDelay = `${i * 0.1}s`;
+        el.classList.add('in');
       });
     }
     if (mainContent && getComputedStyle(mainContent).display !== 'none') queueHeroSequence();
 
- 
     const counters = document.querySelectorAll('.num[data-count]');
     if (counters.length) {
       const cntObs = new IntersectionObserver((entries) => {
@@ -197,37 +193,47 @@ document.addEventListener('DOMContentLoaded', () => {
       counters.forEach(c => cntObs.observe(c));
     }
 
-  
+    // OPTIMIZED: Tilt with passive listeners & reduced motion check
     const tilts = document.querySelectorAll('.tilt');
     const maxTilt = 8;
     const resetTilt = el => {
-      el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0) transition(transform 0.5s cubic-bezier(0.2, 0.9, 0.2, 1))';
+      el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0)';
     };
-    tilts.forEach(el => {
-      el.addEventListener('pointermove', e => {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width - 0.5;
-        const py = (e.clientY - r.top) / r.height - 0.5;
-        const rx = (+py * maxTilt).toFixed(2);
-        const ry = (-px * maxTilt).toFixed(2);
-        el.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(20px)`;
-        el.style.transition = 'none';
+    
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced) {
+      tilts.forEach(el => {
+        el.addEventListener('pointermove', e => {
+          const r = el.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - 0.5;
+          const py = (e.clientY - r.top) / r.height - 0.5;
+          const rx = (+py * maxTilt).toFixed(2);
+          const ry = (-px * maxTilt).toFixed(2);
+          el.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(20px)`;
+          el.style.transition = 'none';
+        }, { passive: true });
+        el.addEventListener('pointerleave', () => {
+          el.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.9, 0.2, 1)';
+          resetTilt(el);
+        }, { passive: true });
       });
-      el.addEventListener('pointerleave', () => {
-        el.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.9, 0.2, 1)';
-        resetTilt(el);
-      });
-    });
+    }
 
- 
+    // OPTIMIZED: Canvas grid with throttled redraws
     const gridCanvas = document.getElementById('bg-grid');
     if (gridCanvas) {
       const ctx = (gridCanvas.getContext && gridCanvas.getContext('2d')) || null;
       if (ctx) {
         const DPR = Math.min(window.devicePixelRatio || 1, 2);
         let scrollOffset = 0;
+        let lastDrawTime = 0;
+        const DRAW_THROTTLE = 16; // ~60fps
+        
         const draw = () => {
+          const now = performance.now();
+          if (now - lastDrawTime < DRAW_THROTTLE) return;
+          lastDrawTime = now;
+          
           const w = document.documentElement.clientWidth || window.innerWidth;
           const h = document.documentElement.clientHeight || window.innerHeight;
           gridCanvas.width = Math.floor(w * DPR);
@@ -254,9 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           ctx.globalAlpha = 1;
         };
+        
         draw();
         let rTimer = null;
-        window.addEventListener('resize', ()=>{ clearTimeout(rTimer); rTimer = setTimeout(draw, 120); }, { passive: true });
+        window.addEventListener('resize', ()=>{ clearTimeout(rTimer); rTimer = setTimeout(draw, 200); }, { passive: true });
         window.addEventListener('scroll', () => {
           scrollOffset = window.scrollY;
           gridCanvas.style.transform = `translateY(${window.scrollY * 0.04}px)`;
@@ -286,18 +293,16 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => ripple.remove(), 600);
     });
 
- 
     document.querySelectorAll('.btn.primary').forEach(btn => {
       btn.addEventListener('mouseenter', function() {
         this.style.animation = 'btn-float 0.6s ease-out';
-      });
+      }, { passive: true });
     });
     document.querySelectorAll('.btn.ghost').forEach(btn => {
       btn.addEventListener('mouseenter', function() {
         this.style.animation = 'btn-float 0.5s ease-out';
-      });
+      }, { passive: true });
     });
-
 
     const lightbox = document.getElementById('lightbox');
     const lbImg = document.getElementById('lb-img');
@@ -362,7 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
       openLightbox(activeIndex);
     }
 
-  
     workCases.forEach((c, idx) => {
       c.style.cursor = 'pointer';
       c.addEventListener('click', (ev) => {
@@ -396,7 +400,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-  
     document.querySelectorAll('.social-btn').forEach(btn => {
       if (!btn.hasAttribute('role')) btn.setAttribute('role', 'link');
       if (!btn.hasAttribute('tabindex')) btn.setAttribute('tabindex', '0');
@@ -418,7 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-  
     (function swipeLB(){
       let startX = 0, startY = 0;
       const vp = document.querySelector('.lb-viewport');
@@ -456,7 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })();
 
-    
     const style = document.createElement('style');
     style.textContent = `
       @keyframes ripple-burst {
@@ -470,7 +471,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
