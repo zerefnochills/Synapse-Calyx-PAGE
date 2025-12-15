@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { submitProject } from '../services/api';
+
 const StartProject = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -16,17 +18,27 @@ const StartProject = () => {
         details: '',
         budget: ''
     });
+    const [status, setStatus] = useState({ loading: false, success: false, error: null });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form Submitted:', formData);
-        alert('Request initiated. We will establish contact shortly.');
-        // Here you would integrate with an API or email service
+        setStatus({ loading: true, success: false, error: null });
+
+        const res = await submitProject(formData);
+
+        if (res.success) {
+            setStatus({ loading: false, success: true, error: null });
+            alert('Transmission Successful. Sequence Initiated.');
+            // Optional: Reset form
+        } else {
+            setStatus({ loading: false, success: false, error: res.message || 'Transmission Failed' });
+            alert(`Error: ${res.message || 'Connection Interrupted'}`);
+        }
     };
 
     const inputClasses = "w-full bg-white/5 border-b border-white/20 px-4 py-3 text-white placeholder-white/30 focus:border-white focus:outline-none transition-colors font-light bg-transparent";

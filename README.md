@@ -1,16 +1,49 @@
-# React + Vite
+# Synapse Calyx
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack inquiry and capabilities platform built with the MERN stack.
 
-Currently, two official plugins are available:
+## Tech Stack
+- **Frontend**: React, Vite, TailwindCSS, Framer Motion
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB (Local)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## React Compiler
+### Prerequisites
+- Node.js installed
+- MongoDB installed and running locally on port 27017 (Optional but recommended)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Installation
 
-## Expanding the ESLint configuration
+1.  **Install Frontend Dependencies**:
+    ```bash
+    npm install
+    ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2.  **Install Backend Dependencies**:
+    ```bash
+    cd server
+    npm install
+    cd ..
+    ```
+
+### Running the Application
+
+To run both the Frontend and Backend simultaneously:
+
+```bash
+npm run dev:full
+```
+
+- **Frontend**: http://localhost:5173
+- **Backend**: http://localhost:5000
+
+## Features
+- **Project Inquiry Form**: Submits detailed project requests to the backend API.
+- **Maintenance Mode**: Admin can toggle "System Offline" screen via environment variables.
+- **API Status**: Frontend automatically checks system health.
+
+## Configuration
+Inside `server/.env`:
+- `MAINTENANCE_MODE=true` to enable the maintenance overlay.
+- `MONGO_URI` to configure the database.

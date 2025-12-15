@@ -2,7 +2,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { teamMembers } from '../data/team';
-import { ArrowLeft, Mail, Briefcase } from 'lucide-react';
+import { ArrowLeft, Mail, Briefcase, Linkedin, Instagram, Github, Dribbble, FileDown } from 'lucide-react';
 
 const PanelMember = () => {
     const { id } = useParams();
@@ -42,8 +42,12 @@ const PanelMember = () => {
                     <p className="text-xl text-primary font-medium mb-8">{member.role}</p>
 
                     <div className="prose prose-invert prose-lg mb-10 text-ink/80">
-                        <p>{member.bio}</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                        <p className="text-xl leading-relaxed font-light text-white/90">{member.bio}</p>
+                        {member.description && (
+                            <p className="mt-4 text-ink/70 leading-relaxed">
+                                {member.description}
+                            </p>
+                        )}
                     </div>
 
                     <div className="mb-10">
@@ -60,7 +64,7 @@ const PanelMember = () => {
                         </ul>
                     </div>
 
-                    <div>
+                    <div className="mb-10">
                         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                             <Mail size={20} className="text-accent" /> Contact
                         </h3>
@@ -68,6 +72,59 @@ const PanelMember = () => {
                             {member.contact}
                         </a>
                     </div>
+
+                    {member.resume && (
+                        <div className="mb-10">
+                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                <FileDown size={20} className="text-accent" /> Resume
+                            </h3>
+                            <a
+                                href={member.resume}
+                                download
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-primary/10 border border-primary/30 hover:bg-primary hover:text-white transition-all duration-300 font-medium"
+                            >
+                                <FileDown size={20} />
+                                Download Resume
+                            </a>
+                        </div>
+                    )}
+
+                    {member.socials && (
+                        <div>
+                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                Socials
+                            </h3>
+                            <div className="flex gap-4">
+                                {Object.entries(member.socials).map(([platform, url]) => {
+                                    if (!url || url === '#' || url === '$') return null;
+
+                                    const Icon = {
+                                        linkedin: Linkedin,
+                                        instagram: Instagram,
+                                        github: Github,
+                                        dribbble: Dribbble
+                                    }[platform.toLowerCase()];
+
+                                    if (!Icon) return null;
+
+                                    return (
+                                        <a
+                                            key={platform}
+                                            href={url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-3 rounded-full bg-white/5 border border-white/5 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+                                            aria-label={platform}
+                                        >
+                                            <Icon size={20} />
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
                 </motion.div>
             </div>
         </div>

@@ -6,6 +6,8 @@ import MeetOurPanel from './pages/MeetOurPanel';
 import PanelMember from './pages/PanelMember';
 import LandingPage from './components/ui/LandingPage';
 import StartProject from './pages/StartProject';
+import MaintenancePage from './components/ui/MaintenancePage';
+import { checkStatus } from './services/api';
 import navBg from './assets/nav_background.webp';
 
 // Scroll to top on route change
@@ -19,6 +21,21 @@ const ScrollToTop = () => {
 
 function App() {
   const [entered, setEntered] = useState(false);
+  const [maintenance, setMaintenance] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      const status = await checkStatus();
+      if (status && status.maintenance) {
+        setMaintenance(true);
+      }
+    };
+    init();
+  }, []);
+
+  if (maintenance) {
+    return <MaintenancePage />;
+  }
 
   return (
     <div style={{
