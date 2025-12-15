@@ -1,13 +1,6 @@
+// Vercel Serverless Function for API endpoints
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('../server/config/db');
-
-// Load config - Vercel will use environment variables directly
-dotenv.config({ path: '../server/.env' });
-
-// Initialize database connection
-connectDB();
 
 const app = express();
 
@@ -15,13 +8,49 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Import routes
-const statusRoutes = require('../server/routes/statusRoutes');
-const contactRoutes = require('../server/routes/contactRoutes');
+// Status endpoint - checks maintenance mode
+app.get('/status', (req, res) => {
+    const isMaintenance = process.env.MAINTENANCE_MODE === 'true';
+    res.json({
+        maintenance: isMaintenance,
+        message: isMaintenance ? 'System Offline for Upgrades' : 'System Online'
+    });
+});
 
-// Routes - No /api prefix needed, Vercel routes /api/* to this function
-app.use('/', statusRoutes);
-app.use('/contact', contactRoutes);
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date() });
+});
+
+// Contact endpoint - simplified for now (no DB dependency)
+app.post('/contact', async (req, res) => {
+    try {
+        const { name, email, company, projectType, budget, message } = req.body;
+
+        // Log the inquiry (in production, this would save to database)
+        console.log('Contact Form Submission:', {
+            name,
+            email,
+            company,
+            projectType,
+            budget,
+            timestamp: new Date()
+        });
+
+        // For now, just return success
+        // TODO: Add MongoDB connection when needed
+        res.json({
+            success: true,
+            message: 'Thank you for your inquiry! We will get back to you soon.'
+        });
+    } catch (error) {
+        console.error('Contact form error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to submit inquiry. Please try again.'
+        });
+    }
+});
 
 // Export for Vercel serverless
 module.exports = app;
