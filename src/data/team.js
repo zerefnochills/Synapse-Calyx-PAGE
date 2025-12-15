@@ -37,7 +37,7 @@ export const teamMembers = [
     {
         id: '4',
         name: 'Udit Soni',
-        role: 'Senior Video Editor & Animator',
+        role: 'Senior Video Editor & GFX Artist',
         bio: 'Bringing static designs to life with fluid animations and 3D integration.',
         image: '/Udit.jpg',
         works: ['Kinetic Reel', 'Morph Identity'],
@@ -47,8 +47,8 @@ export const teamMembers = [
     },
     {
         id: '5',
-        name: 'Janhavi Patil',
-        role: 'Sales Executive/Representative',
+        name: 'Harish',
+        role: 'Senior Video Editor & Animator',
         bio: 'Brief description of expertise and focus area.',
         image: '/team-member.jpg',
         works: ['Project 1', 'Project 2', 'Project 3'],
