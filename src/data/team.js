@@ -24,17 +24,6 @@ export const teamMembers = [
         socials: { linkedin: '$', github: '#' }
     },
     {
-        id: '3',
-        name: 'Bilal Ansari',
-        role: 'Executive Graphic Designer',
-        bio: 'Crafting pixel-perfect interface with a focus on accessibility and motion.',
-        image: '/Bilal.png',
-        works: ['Spectra App', 'Lumina Site'],
-        contact: 'Bilalansari123@gmail.com',
-        description: 'David brings a user-centric approach to design, ensuring that every interface is intuitive and accessible. His work focuses on the fine details of interaction design and motion, creating digital experiences that feel natural and engaging.',
-        socials: { LinkedIN: '#', Instagram: '', Behance: '' }
-    },
-    {
         id: '4',
         name: 'Udit Soni',
         role: 'Senior Video Editor & GFX Artist',
@@ -45,6 +34,18 @@ export const teamMembers = [
         description: 'Elena transforms static concepts into dynamic experiences. Her expertise in fluid animations and 3D integration adds a layer of depth and interactivity to our projects, making them truly immersive.',
         socials: { Instagram: '#', LinkedIN: '' }
     },
+    {
+        id: '3',
+        name: 'Bilal Ansari',
+        role: 'Executive Graphic Designer',
+        bio: 'Crafting pixel-perfect interface with a focus on accessibility and motion.',
+        image: '/Bilal.png',
+        works: ['Spectra App', 'Lumina Site'],
+        contact: 'Bilalansari123@gmail.com',
+        description: 'David brings a user-centric approach to design, ensuring that every interface is intuitive and accessible. His work focuses on the fine details of interaction design and motion, creating digital experiences that feel natural and engaging.',
+        socials: { LinkedIN: '#', Instagram: '', Behance: '' }
+    },
+
     {
         id: '5',
         name: 'Harish',

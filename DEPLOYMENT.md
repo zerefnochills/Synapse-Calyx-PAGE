@@ -1,158 +1,287 @@
-# Deploying to Vercel with Maintenance Mode
+# 🚀 Vercel Deployment Guide - Maintenance Mode Setup
 
-This guide explains how to deploy your Synapse Calyx website to Vercel and control the maintenance mode.
+## Quick Fix for Maintenance Mode
 
-## Prerequisites
+### The Problem
+You set `MAINTENANCE_MODE=true` in Vercel but the maintenance page isn't showing.
 
-1. A Vercel account (sign up at https://vercel.com)
-2. Your GitHub repository connected to Vercel
-3. MongoDB Atlas account (for production database)
+### The Solution
 
-## Step 1: Prepare Your Project
+**Step 1: Push the Latest Changes**
+```bash
+git add .
+git commit -m "Add Vercel serverless configuration"
+git push origin main
+```
 
-The project is already configured with `vercel.json` for deployment.
+**Step 2: Set Environment Variables in Vercel**
 
-## Step 2: Deploy to Vercel
+Go to your Vercel project → **Settings** → **Environment Variables** and add:
 
-### Option A: Deploy via Vercel Dashboard
+| Variable Name | Value | Environment |
+|--------------|-------|-------------|
+| `MAINTENANCE_MODE` | `true` or `false` | Production, Preview, Development |
+| `MONGO_URI` | Your MongoDB Atlas connection string | Production, Preview, Development |
+| `NODE_ENV` | `production` | Production |
+| `VITE_API_URL` | `/api` | Production, Preview, Development |
+
+**Step 3: Redeploy**
+
+After setting environment variables:
+1. Go to **Deployments** tab
+2. Click **⋯** (three dots) on the latest deployment
+3. Click **Redeploy**
+4. Wait for deployment to complete
+
+**Step 4: Test**
+
+Visit your Vercel URL. If `MAINTENANCE_MODE=true`, you should see the maintenance page!
+
+---
+
+## How to Toggle Maintenance Mode
+
+### Enable Maintenance (Show Maintenance Page)
+1. Vercel Dashboard → Settings → Environment Variables
+2. Change `MAINTENANCE_MODE` to `true`
+3. Redeploy (Deployments → ⋯ → Redeploy)
+
+### Disable Maintenance (Show Normal Site)
+1. Vercel Dashboard → Settings → Environment Variables
+2. Change `MAINTENANCE_MODE` to `false`
+3. Redeploy (Deployments → ⋯ → Redeploy)
+
+---
+
+## Complete Setup Guide
+
+### 1. MongoDB Atlas Setup (Required)
+
+Your app needs a database. Set up MongoDB Atlas:
+
+1. Go to https://www.mongodb.com/cloud/atlas
+2. Create a **FREE** cluster
+3. Create a database user:
+   - Database Access → Add New Database User
+   - Username: `synapse_admin`
+   - Password: (generate a strong password)
+   - Role: `Atlas Admin`
+4. Whitelist all IPs:
+   - Network Access → Add IP Address
+   - Enter: `0.0.0.0/0` (allows Vercel to connect)
+   - Click Confirm
+5. Get connection string:
+   - Clusters → Connect → Connect your application
+   - Copy the connection string
+   - Replace `<password>` with your actual password
+   - Replace `<dbname>` with `synapse_calyx`
+
+Example:
+```
+mongodb+srv://synapse_admin:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/synapse_calyx?retryWrites=true&w=majority
+```
+
+### 2. Deploy to Vercel
+
+#### Option A: Via Vercel Dashboard (Recommended)
 
 1. Go to https://vercel.com/dashboard
-2. Click "Add New Project"
+2. Click **"Add New Project"**
 3. Import your GitHub repository: `zerefnochills/Synapse-Calyx-PAGE`
-4. Configure the project:
+4. Configure:
    - **Framework Preset**: Vite
-   - **Root Directory**: `./` (leave as is)
-   - **Build Command**: `npm run build`
+   - **Root Directory**: `./`
+   - **Build Command**: Leave default or use `npm run build`
    - **Output Directory**: `dist`
-   - **Install Command**: `npm install`
+   - **Install Command**: Leave default
+5. Click **"Deploy"**
 
-### Option B: Deploy via Vercel CLI
+#### Option B: Via Vercel CLI
 
 ```bash
-# Install Vercel CLI globally
+# Install Vercel CLI
 npm i -g vercel
 
-# Login to Vercel
+# Login
 vercel login
 
 # Deploy
 vercel --prod
 ```
 
-## Step 3: Configure Environment Variables on Vercel
+### 3. Configure All Environment Variables
 
-Go to your project settings on Vercel Dashboard:
+In Vercel Dashboard → Your Project → Settings → Environment Variables:
 
-1. Navigate to: **Project Settings** → **Environment Variables**
-2. Add the following variables:
+```env
+# Backend Variables
+MAINTENANCE_MODE=false
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/synapse_calyx
+NODE_ENV=production
 
-### Frontend Variables (VITE_*)
-- **VITE_API_URL**: `/api` (for production, uses relative path)
-- **VITE_OPENAI_API_KEY**: `your-openai-api-key` (if using AI assistant)
+# Frontend Variables
+VITE_API_URL=/api
+VITE_OPENAI_API_KEY=your-openai-key-if-using-ai
+```
 
-### Backend Variables (Server)
-- **MONGO_URI**: `your-mongodb-atlas-connection-string`
-- **PORT**: `5000` (optional, Vercel handles this)
-- **NODE_ENV**: `production`
-- **MAINTENANCE_MODE**: `false` (set to `true` to enable maintenance mode)
+**Important**: Set these for **all three environments** (Production, Preview, Development)
 
-### Important Notes:
-- Make sure to set these for **Production**, **Preview**, and **Development** environments
-- The `VITE_API_URL` should be `/api` in production (not the full URL)
+### 4. Redeploy After Setting Variables
 
-## Step 4: Enable/Disable Maintenance Mode
+After adding environment variables, you MUST redeploy:
+- Deployments → ⋯ → Redeploy
 
-### To Enable Maintenance Mode:
+---
 
-1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
-2. Find `MAINTENANCE_MODE`
-3. Change value from `false` to `true`
-4. Click **Save**
-5. Go to **Deployments** tab
-6. Click the **three dots** (⋯) on the latest deployment
-7. Click **Redeploy** → **Use existing Build Cache** (faster)
+## Troubleshooting
 
-Your site will now show the maintenance page! 🚧
+### ❌ Maintenance page not showing
 
-### To Disable Maintenance Mode:
+**Check:**
+1. Is `MAINTENANCE_MODE=true` set in environment variables?
+2. Did you redeploy after setting the variable?
+3. Check Function Logs: Deployments → [Your Deployment] → Functions → Check for errors
 
-1. Change `MAINTENANCE_MODE` back to `false`
-2. Redeploy the project
-
-### Quick Toggle via Vercel CLI:
-
+**Fix:**
 ```bash
-# Enable maintenance mode
+# Verify the environment variable is set
+vercel env ls
+
+# If not set, add it
 vercel env add MAINTENANCE_MODE production
 # Enter: true
 
 # Redeploy
 vercel --prod
+```
 
-# Disable maintenance mode
-vercel env add MAINTENANCE_MODE production
-# Enter: false
+### ❌ API calls failing (Network errors)
 
-# Redeploy
+**Check:**
+1. Is `VITE_API_URL=/api` set correctly?
+2. Check Function Logs for backend errors
+3. Verify MongoDB connection string is correct
+
+**Fix:**
+- Make sure `MONGO_URI` is set with correct password
+- Verify MongoDB Atlas IP whitelist includes `0.0.0.0/0`
+- Check Vercel Function Logs for specific errors
+
+### ❌ Database connection errors
+
+**Check:**
+1. MongoDB Atlas IP whitelist
+2. Database user credentials
+3. Connection string format
+
+**Fix:**
+- MongoDB Atlas → Network Access → Add `0.0.0.0/0`
+- Verify username/password in connection string
+- Test connection string locally first
+
+### ❌ Build failures
+
+**Check Build Logs:**
+- Vercel Dashboard → Deployments → [Failed Deployment] → Building
+
+**Common fixes:**
+```bash
+# Make sure all dependencies are in package.json
+npm install
+
+# Test build locally
+npm run build
+
+# If successful, commit and push
+git add .
+git commit -m "Fix build"
+git push origin main
+```
+
+---
+
+## Testing Locally Before Deployment
+
+Test the production build locally:
+
+```bash
+# Build the frontend
+npm run build
+
+# Preview the build
+npm run preview
+
+# In another terminal, run the backend
+cd server
+npm run dev
+```
+
+Visit `http://localhost:4173` to test.
+
+---
+
+## Monitoring & Logs
+
+### View Function Logs (Backend)
+Vercel Dashboard → Deployments → [Select Deployment] → Functions
+
+### View Build Logs
+Vercel Dashboard → Deployments → [Select Deployment] → Building
+
+### Real-time Logs (CLI)
+```bash
+vercel logs --follow
+```
+
+---
+
+## Quick Reference Commands
+
+```bash
+# Deploy to production
 vercel --prod
+
+# View logs
+vercel logs --follow
+
+# List environment variables
+vercel env ls
+
+# Add environment variable
+vercel env add VARIABLE_NAME production
+
+# Remove environment variable
+vercel env rm VARIABLE_NAME production
 ```
-
-## Step 5: Set Up MongoDB Atlas (Production Database)
-
-1. Go to https://www.mongodb.com/cloud/atlas
-2. Create a free cluster
-3. Create a database user
-4. Whitelist all IP addresses (0.0.0.0/0) for Vercel
-5. Get your connection string
-6. Add it to Vercel as `MONGO_URI` environment variable
-
-Example connection string:
-```
-mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/synapse_calyx?retryWrites=true&w=majority
-```
-
-## Step 6: Install Server Dependencies
-
-Make sure your `server/package.json` dependencies are installed during deployment. Vercel should automatically detect and install them.
-
-## Troubleshooting
-
-### API calls not working:
-- Check that `VITE_API_URL` is set to `/api` in production
-- Verify `vercel.json` routes are correct
-- Check Vercel function logs in Dashboard → Deployments → Function Logs
-
-### Maintenance mode not showing:
-- Verify `MAINTENANCE_MODE=true` is set in environment variables
-- Make sure you redeployed after changing the variable
-- Check browser console for API errors
-
-### Database connection issues:
-- Verify MongoDB Atlas IP whitelist includes 0.0.0.0/0
-- Check connection string format
-- Ensure database user has correct permissions
-
-## Monitoring
-
-- **Function Logs**: Vercel Dashboard → Deployments → [Select Deployment] → Functions
-- **Analytics**: Vercel Dashboard → Analytics
-- **Real-time Logs**: Use `vercel logs` command
-
-## Automatic Deployments
-
-Vercel automatically deploys when you push to your GitHub repository:
-- **Push to `main`**: Deploys to production
-- **Push to other branches**: Creates preview deployments
 
 ---
 
-## Quick Reference
+## File Structure for Vercel
 
-**Enable Maintenance**: Set `MAINTENANCE_MODE=true` → Redeploy  
-**Disable Maintenance**: Set `MAINTENANCE_MODE=false` → Redeploy  
-**View Logs**: `vercel logs --follow`  
-**Redeploy**: Vercel Dashboard → Deployments → Redeploy
+```
+synapse-calyx/
+├── api/
+│   └── index.js          # Serverless function entry point
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   └── server.js         # Original Express server (for local dev)
+├── src/                  # React frontend
+├── dist/                 # Build output (auto-generated)
+├── vercel.json          # Vercel configuration
+└── package.json
+```
 
 ---
 
-Need help? Check Vercel docs: https://vercel.com/docs
+## Support
+
+- **Vercel Docs**: https://vercel.com/docs
+- **MongoDB Atlas Docs**: https://docs.atlas.mongodb.com/
+- **Check Function Logs**: Vercel Dashboard → Deployments → Functions
+
+---
+
+**Remember**: After ANY environment variable change, you MUST redeploy! 🔄
