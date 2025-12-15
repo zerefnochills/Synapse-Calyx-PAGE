@@ -24,7 +24,7 @@ export const teamMembers = [
         socials: { linkedin: '$', github: '#' }
     },
     {
-        id: '4',
+        id: '3',
         name: 'Udit Soni',
         role: 'Senior Video Editor & GFX Artist',
         bio: 'Bringing static designs to life with fluid animations and 3D integration.',
@@ -35,7 +35,7 @@ export const teamMembers = [
         socials: { Instagram: '#', LinkedIN: '' }
     },
     {
-        id: '3',
+        id: '4',
         name: 'Bilal Ansari',
         role: 'Executive Graphic Designer',
         bio: 'Crafting pixel-perfect interface with a focus on accessibility and motion.',

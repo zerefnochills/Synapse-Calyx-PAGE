@@ -19,9 +19,9 @@ app.use(express.json());
 const statusRoutes = require('../server/routes/statusRoutes');
 const contactRoutes = require('../server/routes/contactRoutes');
 
-// Routes
-app.use('/api', statusRoutes);
-app.use('/api/contact', contactRoutes);
+// Routes - No /api prefix needed, Vercel routes /api/* to this function
+app.use('/', statusRoutes);
+app.use('/contact', contactRoutes);
 
 // Export for Vercel serverless
 module.exports = app;
