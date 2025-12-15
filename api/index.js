@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Status endpoint - checks maintenance mode
-app.get('/status', (req, res) => {
+app.get('/api/status', (req, res) => {
     const isMaintenance = process.env.MAINTENANCE_MODE === 'true';
     res.json({
         maintenance: isMaintenance,
@@ -18,12 +18,12 @@ app.get('/status', (req, res) => {
 });
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date() });
 });
 
 // Contact endpoint - simplified for now (no DB dependency)
-app.post('/contact', async (req, res) => {
+app.post('/api/contact', async (req, res) => {
     try {
         const { name, email, company, projectType, budget, message } = req.body;
 
