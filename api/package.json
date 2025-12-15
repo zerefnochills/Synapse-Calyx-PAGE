@@ -1,0 +1,10 @@
+{
+    "name": "synapse-api",
+    "version": "1.0.0",
+    "description": "Synapse Calyx API Serverless Functions",
+    "main": "index.js",
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5"
+    }
+}
