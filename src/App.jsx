@@ -8,7 +8,7 @@ import LandingPage from './components/ui/LandingPage';
 import StartProject from './pages/StartProject';
 import MaintenancePage from './components/ui/MaintenancePage';
 import { checkStatus } from './services/api';
-import navBg from './assets/nav_background.webp';
+import navBg from './assets/synapse_background.png';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -38,14 +38,7 @@ function App() {
   }
 
   return (
-    <div style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${navBg})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
-      minHeight: '100vh',
-      width: '100%'
-    }}>
+    <div className="min-h-screen w-full">
       {!entered && <LandingPage onEnter={() => setEntered(true)} />}
       {entered && (
         <Layout>

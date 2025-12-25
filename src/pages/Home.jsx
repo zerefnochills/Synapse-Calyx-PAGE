@@ -1,7 +1,7 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Instagram, Linkedin, Twitter, Dribbble } from 'lucide-react';
+import { ArrowRight, Instagram, Linkedin, Twitter, Dribbble, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Lightbox from '../components/ui/Lightbox';
 import SynapseAI from '../components/ui/SynapseAI';
@@ -13,9 +13,9 @@ const fadeInUp = {
 };
 
 const works = [
-    { title: 'Alpha', cat: 'Identity + Web', img: '/Free Cardboard Gold Logo Mockup.jpg' },
-    { title: 'Vector', cat: 'UI/UX + Motion', img: '/Branding Presentation-03.png' },
-    { title: 'Helix', cat: 'Automation', img: '/Branding Presentation-01.png' }
+    { title: '', cat: 'Identity + Web', img: '/Free Cardboard Gold Logo Mockup.jpg' },
+    { title: '', cat: 'UI/UX + Motion', img: '/Branding Presentation-03.png' },
+    { title: '', cat: 'Automation', img: '/Branding Presentation-01.png' }
 ];
 
 const Home = () => {
@@ -27,9 +27,17 @@ const Home = () => {
         return works.filter(work => work.cat.includes(filter));
     }, [filter]);
 
+    const handleWorkClick = useCallback((work, index) => {
+        setSelectedWork({ ...work, index });
+    }, []);
+
+    const handleCloseLightbox = useCallback(() => {
+        setSelectedWork(null);
+    }, []);
+
     return (
         <div className="space-y-40 pb-20 text-white selection:bg-white selection:text-black">
-            <Lightbox selectedWork={selectedWork} onClose={() => setSelectedWork(null)} />
+            <Lightbox selectedWork={selectedWork} onClose={handleCloseLightbox} />
             <SynapseAI />
 
             {/* CTA Button */}
@@ -63,9 +71,20 @@ const Home = () => {
                             <p className="text-lg md:text-xl font-light text-white/60 max-w-md leading-relaxed">
                                 Precision engineering for the digital age. We forge automated systems and monochrome aesthetics.
                             </p>
-                            <a href="#work" className="w-[80px] h-[80px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500 group">
-                                <ArrowRight size={24} className="group-hover:-rotate-45 transition-transform duration-500" />
-                            </a>
+                            <div className="flex gap-4 items-center">
+                                <a href="#work" className="w-[80px] h-[80px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500 group">
+                                    <ArrowRight size={24} className="group-hover:-rotate-45 transition-transform duration-500" />
+                                </a>
+                                <a
+                                    href="https://forms.gle/dKLqcXTezEbQz6359"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group"
+                                >
+                                    Join Our Team
+                                    <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                                </a>
+                            </div>
                         </motion.div>
                     </div>
 
@@ -82,6 +101,8 @@ const Home = () => {
                                     src="/SC_pfp.jpg"
                                     alt="Synapse Logo"
                                     className="w-full h-full object-cover rounded-full mix-blend-screen brightness-90 contrast-125"
+                                    loading="eager"
+                                    decoding="async"
                                 />
                             </motion.div>
                         </div>
@@ -139,10 +160,10 @@ const Home = () => {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 key={work.title}
-                                onClick={() => setSelectedWork({ ...work, index: i })}
+                                onClick={() => handleWorkClick(work, i)}
                                 className="group relative aspect-[16/10] overflow-hidden bg-white/5 cursor-pointer"
                             >
-                                <img src={work.img} alt={work.title} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" />
+                                <img src={work.img} alt={work.title} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" loading="lazy" decoding="async" />
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                     <div className="text-center">
                                         <h3 className="text-3xl font-light text-white mb-2">{work.title}</h3>
@@ -168,7 +189,7 @@ const Home = () => {
                             viewport={{ once: true }}
                             className="mb-12 rounded-lg overflow-hidden border border-white/10"
                         >
-                            <img src="/linkdin banner bgv1.jpg" alt="Synapse Banner" className="w-full h-auto object-cover" />
+                            <img src="/linkdin banner bgv1.jpg" alt="Synapse Banner" className="w-full h-auto object-cover" loading="lazy" decoding="async" />
                         </motion.div>
 
                         <h2 className="text-4xl md:text-6xl font-light leading-snug mb-12">
@@ -182,9 +203,20 @@ const Home = () => {
                                 <p className="mb-8">
                                     Our philosophy is simple: Eliminate the noise. Amplify the signal.
                                 </p>
-                                <a href="/panel" className="inline-block border-b border-white text-white pb-1 hover:text-white/50 hover:border-white/50 transition-colors">
-                                    Meet The Panel
-                                </a>
+                                <div className="flex flex-col sm:flex-row gap-6 items-start">
+                                    <a href="/panel" className="inline-block border-b border-white text-white pb-1 hover:text-white/50 hover:border-white/50 transition-colors">
+                                        Meet The Panel
+                                    </a>
+                                    <a
+                                        href="https://forms.gle/dKLqcXTezEbQz6359"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group"
+                                    >
+                                        Apply Now
+                                        <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

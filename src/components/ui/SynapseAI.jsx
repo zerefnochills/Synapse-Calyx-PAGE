@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, AlertCircle } from 'lucide-react';
 import OpenAI from 'openai';
@@ -46,7 +46,7 @@ const SynapseAI = () => {
         scrollToBottom();
     }, [messages]);
 
-    const handleSend = async () => {
+    const handleSend = useCallback(async () => {
         if (!input.trim()) return;
 
         const userMessage = { id: Date.now(), text: input, sender: 'user' };
@@ -95,16 +95,20 @@ const SynapseAI = () => {
         } finally {
             setIsTyping(false);
         }
-    };
+    }, [messages, input]);
 
-    const handleKeyPress = (e) => {
+    const handleKeyPress = useCallback((e) => {
         if (e.key === 'Enter') handleSend();
-    };
+    }, [handleSend]);
+
+    const toggleOpen = useCallback(() => {
+        setIsOpen(prev => !prev);
+    }, []);
 
     return (
         <>
             <motion.button
-                onClick={() => setIsOpen(true)}
+                onClick={toggleOpen}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="fixed bottom-6 right-6 z-40 p-4 rounded-full bg-white text-black hover:bg-white/90 transition-colors shadow-2xl"
@@ -139,7 +143,7 @@ const SynapseAI = () => {
                                     </span>
                                 </div>
                             </div>
-                            <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white transition-colors">
+                            <button onClick={toggleOpen} className="text-white/50 hover:text-white transition-colors">
                                 <X size={18} />
                             </button>
                         </div>

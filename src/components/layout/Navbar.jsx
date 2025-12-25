@@ -26,18 +26,45 @@ const Navbar = () => {
     ];
 
     const sidebarVars = {
-        closed: { x: '-100%', transition: { type: "spring", stiffness: 400, damping: 40 } },
-        open: { x: 0, transition: { type: "spring", stiffness: 400, damping: 40 } }
+        closed: {
+            x: '-100%',
+            opacity: 0,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                opacity: { duration: 0.2 }
+            }
+        },
+        open: {
+            x: 0,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                opacity: { duration: 0.3 }
+            }
+        }
     };
 
     const containerVars = {
         closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
-        open: { transition: { delayChildren: 0.2, staggerChildren: 0.05, staggerDirection: 1 } }
+        open: { transition: { delayChildren: 0.3, staggerChildren: 0.08, staggerDirection: 1 } }
     };
 
     const linkVars = {
-        closed: { x: -20, opacity: 0 },
-        open: { x: 0, opacity: 1 }
+        closed: { x: -50, opacity: 0, scale: 0.8 },
+        open: {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            transition: {
+                type: "spring",
+                stiffness: 260,
+                damping: 20
+            }
+        }
     };
 
     return (
@@ -59,31 +86,37 @@ const Navbar = () => {
             <AnimatePresence>
                 {isOpen && (
                     <>
-                        {/* Backdrop */}
+                        {/* Backdrop - Enhanced Blur */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
                             onClick={toggleMenu}
-                            className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm"
+                            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md"
                         />
 
-                        {/* Drawer */}
+                        {/* Drawer - Premium Glassmorphism */}
                         <motion.div
                             variants={sidebarVars}
                             initial="closed"
                             animate="open"
                             exit="closed"
                             className="fixed top-0 left-0 bottom-0 z-50 w-full md:w-[600px] overflow-hidden"
+                            style={{ willChange: 'transform, opacity' }}
                         >
-                            {/* Background Image Layer */}
+                            {/* Background Layer with Gradient */}
                             <div className="absolute inset-0 z-0">
                                 <img
                                     src={navBg}
                                     alt="Navigation Background"
-                                    className="w-full h-full object-cover opacity-20"
+                                    className="w-full h-full object-cover opacity-30 blur-sm"
+                                    loading="eager"
                                 />
-                                <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+                                {/* Glassmorphism overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/70 backdrop-blur-xl"></div>
+                                {/* Subtle gradient accent */}
+                                <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent"></div>
                             </div>
 
                             <div className="relative z-10 p-10 h-full flex flex-col justify-between border-r border-white/10 shadow-2xl">
@@ -99,31 +132,32 @@ const Navbar = () => {
                                     initial="closed"
                                     animate="open"
                                     exit="closed"
-                                    className="flex flex-col gap-6"
+                                    className="flex flex-col gap-0"
                                 >
                                     {navLinks.map((link, index) => (
                                         <motion.div
                                             key={link.name}
                                             variants={linkVars}
-                                            whileHover={{ x: 20 }}
-                                            transition={{ type: "spring", stiffness: 300 }}
+                                            whileHover={{ x: 20, scale: 1.05 }}
+                                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                            className="border-b border-white/10 last:border-b-0"
                                         >
                                             {link.href.startsWith('/#') ? (
                                                 <a
                                                     href={link.href}
-                                                    className="group flex items-center gap-4 text-4xl md:text-6xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer"
+                                                    className="group flex items-center gap-4 text-2xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] py-4"
                                                     onClick={toggleMenu}
                                                 >
-                                                    <span className="text-sm font-mono text-white/30 group-hover:text-accent transition-colors">0{index + 1}</span>
+                                                    <span className="text-xs font-mono text-white/30 group-hover:text-white group-hover:scale-110 transition-all duration-300">0{index + 1}</span>
                                                     {link.name}
                                                 </a>
                                             ) : (
                                                 <Link
                                                     to={link.href}
-                                                    className="group flex items-center gap-4 text-4xl md:text-6xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer"
+                                                    className="group flex items-center gap-4 text-2xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] py-4"
                                                     onClick={toggleMenu}
                                                 >
-                                                    <span className="text-sm font-mono text-white/30 group-hover:text-accent transition-colors">0{index + 1}</span>
+                                                    <span className="text-xs font-mono text-white/30 group-hover:text-white group-hover:scale-110 transition-all duration-300">0{index + 1}</span>
                                                     {link.name}
                                                 </Link>
                                             )}

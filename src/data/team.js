@@ -4,7 +4,7 @@ export const teamMembers = [
         id: '1',
         name: 'Deepak Pandey',
         role: 'Founder/Creative Director',
-        bio: 'Visionary leader - Experienced in Web-Dev/Design, UI/UX Design & GenAi RAGS etc.',
+        bio: 'Visionary leader - Experienced in Web-Dev/Design, UI/UX Design & GenAi Automation.',
         image: '/deepak.jpg',
         works: ["Experienced Python Developer & Frontend Dev --", 'Synapse Calyx Web', 'Waste-Exchange System', 'Drowsiness Detection System'],
         contact: 'tech.deepakk@outlook.com',
@@ -31,7 +31,7 @@ export const teamMembers = [
         image: '/Udit.jpg',
         works: ['Kinetic Reel', 'Morph Identity'],
         contact: 'Marshygotamail@gmail.com',
-        description: 'Elena transforms static concepts into dynamic experiences. Her expertise in fluid animations and 3D integration adds a layer of depth and interactivity to our projects, making them truly immersive.',
+        description: 'Udit specializes in transforming creative visions into compelling visual narratives. With expertise in video editing, motion graphics, and GFX artistry, he brings stories to life through dynamic post-production work and cutting-edge visual effects that captivate audiences.',
         socials: { Instagram: '#', LinkedIN: '' }
     },
     {
@@ -42,7 +42,7 @@ export const teamMembers = [
         image: '/Bilal.png',
         works: ['Spectra App', 'Lumina Site'],
         contact: 'Bilalansari123@gmail.com',
-        description: 'David brings a user-centric approach to design, ensuring that every interface is intuitive and accessible. His work focuses on the fine details of interaction design and motion, creating digital experiences that feel natural and engaging.',
+        description: 'Bilal is a master of visual communication, crafting pixel-perfect designs that blend aesthetics with functionality. As Executive Graphic Designer, he creates stunning visual identities, marketing materials, and brand assets that elevate every project with precision and creative excellence.',
         socials: { LinkedIN: '#', Instagram: '', Behance: '' }
     },
 
@@ -51,10 +51,32 @@ export const teamMembers = [
         name: 'Harish',
         role: 'Senior Video Editor & Animator',
         bio: 'Brief description of expertise and focus area.',
-        image: '/team-member.jpg',
+        image: '/Member.jpeg',
         works: ['Project 1', 'Project 2', 'Project 3'],
         contact: 'email@example.com',
-        description: 'Detailed description of the team member\'s background, expertise, and contributions to Synapse Calyx. This should highlight their unique skills and how they add value to the team.',
+        description: 'Harish is a skilled video editor and animator who brings technical expertise and creative vision to every project. Specializing in post-production, motion design, and animation, he crafts seamless edits and engaging visual sequences that enhance storytelling and deliver professional-grade content.',
         socials: { linkedin: '#', Instagram: '#', Github: '#' }
+    },
+    {
+        id: '6',
+        name: 'Garima Soni',
+        role: 'Sales Executive',
+        bio: 'Driving business growth through strategic client relationships and innovative sales solutions.',
+        image: '/Member.jpeg',
+        works: ['Professional Sales Manager', '', '', ''],
+        contact: 'garimasoni861@gmail.com',
+        description: 'Garima is a dynamic sales professional who excels at building lasting client relationships and identifying new business opportunities. With a strategic approach to sales and deep understanding of client needs, she drives revenue growth while ensuring customer satisfaction. Her expertise in consultative selling and market analysis helps Synapse Calyx expand its reach and deliver value to clients across diverse industries.',
+        socials: { linkedin: '#', Instagram: 'https://www.instagram.com/always_.heir?igsh=MTFqOGkxaGpwZ2ltMg==', Behance: '#' }
+    },
+    {
+        id: '7',
+        name: 'Janhavi Patil',
+        role: 'Sales Executive',
+        bio: 'Cultivating partnerships and delivering exceptional client experiences through data-driven sales strategies.',
+        image: '/Member.jpeg',
+        works: ['', '', '', ''],
+        contact: 'janepat678@gmail.com',
+        description: 'Janhavi brings energy and innovation to the sales team, specializing in lead generation and client engagement. With a keen eye for market trends and a talent for building meaningful connections, she transforms prospects into long-term partners. Her data-driven approach to sales, combined with exceptional communication skills, ensures that every client interaction adds value and strengthens Synapse Calyx\'s market presence.',
+        socials: { linkedin: '#', Github: '#', Twitter: '#' }
     }
 ];

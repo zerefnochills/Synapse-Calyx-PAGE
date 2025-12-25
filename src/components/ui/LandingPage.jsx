@@ -14,12 +14,25 @@ const LandingPage = ({ onEnter }) => {
         <AnimatePresence>
             {!isExiting && (
                 <motion.div
-                    className="fixed inset-0 z-[100] bg-[#050505] flex items-center justify-center cursor-pointer"
+                    className="fixed inset-0 z-[100] flex items-center justify-center cursor-pointer overflow-hidden"
                     onClick={handleEnter}
                     exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
                 >
+                    {/* Custom Background Image - GPU Accelerated */}
+                    <div className="absolute inset-0" style={{ willChange: 'transform' }}>
+                        <img
+                            src="/background.jpg"
+                            alt=""
+                            className="w-full h-full object-cover blur-sm scale-105"
+                            loading="eager"
+                            style={{ transform: 'translateZ(0)', willChange: 'transform' }}
+                        />
+                        {/* Dark overlay for readability */}
+                        <div className="absolute inset-0 bg-black/80" style={{ transform: 'translateZ(0)' }}></div>
+                    </div>
+
                     {/* Animated Grain/Noise Overlay */}
-                    <div className="absolute inset-0 opacity-[0.15]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+                    <div className="absolute inset-0 opacity-[0.15]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`, transform: 'translateZ(0)' }}></div>
 
                     <div className="relative text-center z-10 p-6">
                         <motion.div

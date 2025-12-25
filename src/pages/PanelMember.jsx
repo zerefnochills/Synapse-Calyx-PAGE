@@ -50,19 +50,24 @@ const PanelMember = () => {
                         )}
                     </div>
 
-                    <div className="mb-10">
-                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                            <Briefcase size={20} className="text-accent" /> Selected Works
-                        </h3>
-                        <ul className="space-y-3">
-                            {member.works.map(work => (
-                                <li key={work} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-primary/30 transition-colors">
-                                    <span className="w-2 h-2 rounded-full bg-primary"></span>
-                                    {work}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+
+                    {/* Only show works section for certain members */}
+                    {!['5', '6', '7'].includes(member.id) && (
+                        <div className="mb-10">
+                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                <Briefcase size={20} className="text-accent" /> Selected Works/Experienced in-
+                            </h3>
+                            <ul className="space-y-3">
+                                {member.works.map(work => (
+                                    <li key={work} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-primary/30 transition-colors">
+                                        <span className="w-2 h-2 rounded-full bg-primary"></span>
+                                        {work}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
 
                     <div className="mb-10">
                         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
