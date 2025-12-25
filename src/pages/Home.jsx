@@ -204,9 +204,9 @@ const Home = () => {
                                     Our philosophy is simple: Eliminate the noise. Amplify the signal.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-6 items-start">
-                                    <a href="/panel" className="inline-block border-b border-white text-white pb-1 hover:text-white/50 hover:border-white/50 transition-colors">
+                                    <Link to="/panel" className="inline-block border-b border-white text-white pb-1 hover:text-white/50 hover:border-white/50 transition-colors">
                                         Meet The Panel
-                                    </a>
+                                    </Link>
                                     <a
                                         href="https://forms.gle/dKLqcXTezEbQz6359"
                                         target="_blank"
