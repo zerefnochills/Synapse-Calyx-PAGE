@@ -30,20 +30,18 @@ const Navbar = () => {
             x: '-100%',
             opacity: 0,
             transition: {
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
-                opacity: { duration: 0.2 }
+                type: "tween",
+                duration: 0.3,
+                ease: "easeInOut"
             }
         },
         open: {
             x: 0,
             opacity: 1,
             transition: {
-                type: "spring",
-                stiffness: 300,
-                damping: 30,
-                opacity: { duration: 0.3 }
+                type: "tween",
+                duration: 0.3,
+                ease: "easeOut"
             }
         }
     };
@@ -69,10 +67,10 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="fixed top-6 left-6 z-50">
+            <div className="fixed top-4 left-4 md:top-6 md:left-6 z-50">
                 <button
                     onClick={toggleMenu}
-                    className="text-white hover:text-white/70 transition-colors p-2 mix-blend-difference"
+                    className="text-white hover:text-white/70 transition-colors p-3 md:p-2 mix-blend-difference min-w-[48px] min-h-[48px] flex items-center justify-center"
                     aria-label="Toggle Menu"
                 >
                     <div className="space-y-1.5">
@@ -102,8 +100,8 @@ const Navbar = () => {
                             initial="closed"
                             animate="open"
                             exit="closed"
-                            className="fixed top-0 left-0 bottom-0 z-50 w-full md:w-[600px] overflow-hidden"
-                            style={{ willChange: 'transform, opacity' }}
+                            className="fixed top-0 left-0 bottom-0 z-50 w-full md:w-[600px] overflow-hidden max-w-full"
+                            style={{ willChange: 'transform', WebkitOverflowScrolling: 'touch' }}
                         >
                             {/* Background Layer with Gradient */}
                             <div className="absolute inset-0 z-0">

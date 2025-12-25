@@ -32,7 +32,7 @@ const MeetOurPanel = () => {
                         href="https://forms.gle/dKLqcXTezEbQz6359"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-lg text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group"
+                        className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-lg text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group min-h-[48px]"
                     >
                         Apply Now
                         <ArrowUpRight size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />

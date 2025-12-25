@@ -111,7 +111,7 @@ const SynapseAI = () => {
                 onClick={toggleOpen}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="fixed bottom-6 right-6 z-40 p-4 rounded-full bg-white text-black hover:bg-white/90 transition-colors shadow-2xl"
+                className="fixed bottom-6 right-6 z-40 p-4 rounded-full bg-white text-black hover:bg-white/90 transition-colors shadow-2xl min-w-[56px] min-h-[56px] flex items-center justify-center"
             >
                 <div className="relative z-10 font-bold">
                     <MessageSquare size={24} fill="currentColor" />
@@ -127,7 +127,7 @@ const SynapseAI = () => {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="fixed bottom-24 right-6 z-50 w-80 md:w-96 bg-black border border-white/20 shadow-2xl overflow-hidden rounded-2xl flex flex-col h-[500px]"
+                        className="fixed bottom-20 md:bottom-24 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-[380px] md:w-96 bg-black border border-white/20 shadow-2xl overflow-hidden rounded-2xl flex flex-col h-[min(500px,calc(100vh-140px))]"
                     >
                         {/* Header */}
                         <div className="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center shrink-0">

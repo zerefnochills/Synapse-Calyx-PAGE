@@ -41,7 +41,7 @@ const StartProject = () => {
         }
     };
 
-    const inputClasses = "w-full bg-white/5 border-b border-white/20 px-4 py-3 text-white placeholder-white/30 focus:border-white focus:outline-none transition-colors font-light bg-transparent";
+    const inputClasses = "w-full bg-white/5 border-b border-white/20 px-4 py-4 md:py-3 text-base md:text-sm text-white placeholder-white/30 focus:border-white focus:outline-none transition-colors font-light bg-transparent min-h-[48px]";
     const labelClasses = "block text-xs font-mono uppercase tracking-widest text-white/50 mb-2";
 
     return (
@@ -148,15 +148,15 @@ const StartProject = () => {
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className={labelClasses}>Role Type</label>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                                         {['Business Owner', 'Freelancer', 'Content Creator', 'Agency', 'Other'].map((type) => (
-                                            <label key={type} className="flex items-center gap-3 cursor-pointer group">
+                                            <label key={type} className="flex items-center gap-3 cursor-pointer group min-h-[44px]">
                                                 <input
                                                     type="radio"
                                                     name="roleType"
                                                     value={type}
                                                     onChange={handleChange}
-                                                    className="appearance-none w-4 h-4 border border-white/30 rounded-full checked:bg-white checked:border-white transition-all"
+                                                    className="appearance-none w-5 h-5 md:w-4 md:h-4 border border-white/30 rounded-full checked:bg-white checked:border-white transition-all flex-shrink-0"
                                                 />
                                                 <span className="text-sm font-light text-white/60 group-hover:text-white transition-colors">{type}</span>
                                             </label>
@@ -172,15 +172,15 @@ const StartProject = () => {
 
                             <div>
                                 <label className={labelClasses}>Project Type</label>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-8">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 mb-8">
                                     {['Identity', 'Digital / Web', 'Motion', 'Automation / AI', 'Full Stack'].map((cat) => (
-                                        <label key={cat} className="flex items-center gap-3 cursor-pointer group">
+                                        <label key={cat} className="flex items-center gap-3 cursor-pointer group min-h-[44px]">
                                             <input
                                                 type="radio"
                                                 name="projectType"
                                                 value={cat}
                                                 onChange={handleChange}
-                                                className="appearance-none w-4 h-4 border border-white/30 rounded-full checked:bg-white checked:border-white transition-all"
+                                                className="appearance-none w-5 h-5 md:w-4 md:h-4 border border-white/30 rounded-full checked:bg-white checked:border-white transition-all flex-shrink-0"
                                             />
                                             <span className="text-sm font-light text-white/60 group-hover:text-white transition-colors">{cat}</span>
                                         </label>
@@ -218,7 +218,7 @@ const StartProject = () => {
                         <div className="pt-8">
                             <button
                                 type="submit"
-                                className="group flex items-center gap-4 px-8 py-4 bg-white text-black font-bold tracking-widest text-xs uppercase hover:bg-white/90 transition-all rounded-sm"
+                                className="group flex items-center justify-center gap-4 px-8 py-4 bg-white text-black font-bold tracking-widest text-xs uppercase hover:bg-white/90 transition-all rounded-sm w-full md:w-auto min-h-[48px]"
                             >
                                 <span>Transmit Data</span>
                                 <Send size={16} className="group-hover:translate-x-1 transition-transform" />

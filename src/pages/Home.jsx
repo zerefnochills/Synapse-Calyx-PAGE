@@ -58,7 +58,7 @@ const Home = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: "easeOut" }}
                         >
-                            <h1 className="text-[12vw] leading-[0.8] font-bold tracking-tighter mb-8 text-white mix-blend-exclusion">
+                            <h1 className="text-[clamp(3rem,12vw,8rem)] leading-[0.8] font-bold tracking-tighter mb-8 text-white mix-blend-exclusion">
                                 SYNAPSE<br />CALYX
                             </h1>
                         </motion.div>
@@ -71,15 +71,15 @@ const Home = () => {
                             <p className="text-lg md:text-xl font-light text-white/60 max-w-md leading-relaxed">
                                 Precision engineering for the digital age. We forge automated systems and monochrome aesthetics.
                             </p>
-                            <div className="flex gap-4 items-center">
-                                <a href="#work" className="w-[80px] h-[80px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500 group">
+                            <div className="flex gap-4 items-center flex-wrap">
+                                <a href="#work" className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500 group flex-shrink-0">
                                     <ArrowRight size={24} className="group-hover:-rotate-45 transition-transform duration-500" />
                                 </a>
                                 <a
                                     href="https://forms.gle/dKLqcXTezEbQz6359"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group"
+                                    className="inline-flex items-center gap-2 px-5 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group min-h-[48px]"
                                 >
                                     Join Our Team
                                     <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
