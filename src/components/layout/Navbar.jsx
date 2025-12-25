@@ -143,19 +143,17 @@ const Navbar = () => {
                                             {link.href.startsWith('/#') ? (
                                                 <a
                                                     href={link.href}
-                                                    className="group flex items-center gap-4 text-2xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] py-4"
+                                                    className="group flex items-center text-2xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] py-4"
                                                     onClick={toggleMenu}
                                                 >
-                                                    <span className="text-xs font-mono text-white/30 group-hover:text-white group-hover:scale-110 transition-all duration-300">0{index + 1}</span>
                                                     {link.name}
                                                 </a>
                                             ) : (
                                                 <Link
                                                     to={link.href}
-                                                    className="group flex items-center gap-4 text-2xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] py-4"
+                                                    className="group flex items-center text-2xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] py-4"
                                                     onClick={toggleMenu}
                                                 >
-                                                    <span className="text-xs font-mono text-white/30 group-hover:text-white group-hover:scale-110 transition-all duration-300">0{index + 1}</span>
                                                     {link.name}
                                                 </Link>
                                             )}
@@ -170,11 +168,7 @@ const Navbar = () => {
                                             enquiry@synapse.cx
                                         </a>
                                     </div>
-                                    <div className="flex gap-4">
-                                        {/* Social icons could go here */}
-                                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                                        <span className="text-xs text-white/40 tracking-widest uppercase">System Online</span>
-                                    </div>
+
                                 </div>
                             </div>
                         </motion.div>

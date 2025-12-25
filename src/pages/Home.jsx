@@ -225,8 +225,8 @@ const Home = () => {
 
             {/* Socials */}
             <section id="social" className="px-6 max-w-[90vw] mx-auto pt-40 text-center">
-                <h2 className="text-[10vw] font-bold tracking-tighter opacity-10 select-none pointer-events-none">CONTACT</h2>
-                <div className="flex justify-center gap-8 -mt-8 md:-mt-16 relative z-10">
+                <h2 className="text-[clamp(3rem,10vw,10vw)] font-bold tracking-tighter opacity-10 select-none pointer-events-none mb-6 md:mb-0">CONTACT</h2>
+                <div className="flex justify-center gap-6 md:gap-8 md:-mt-16 relative z-10">
                     {[
                         { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/synapse.cx?igsh=MXNvcmcxbXhsYmhkMw==' },
                         { name: 'LinkedIn', icon: Linkedin, url: 'https://www.linkedin.com/company/synapse-calyx/' },

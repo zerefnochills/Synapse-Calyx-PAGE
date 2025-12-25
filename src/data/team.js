@@ -53,7 +53,7 @@ export const teamMembers = [
         bio: 'Brief description of expertise and focus area.',
         image: '/Member.jpeg',
         works: ['Project 1', 'Project 2', 'Project 3'],
-        contact: 'email@example.com',
+        contact: 'hsforbgmi01@gmail.com',
         description: 'Harish is a skilled video editor and animator who brings technical expertise and creative vision to every project. Specializing in post-production, motion design, and animation, he crafts seamless edits and engaging visual sequences that enhance storytelling and deliver professional-grade content.',
         socials: { linkedin: '#', Instagram: '#', Github: '#' }
     },
