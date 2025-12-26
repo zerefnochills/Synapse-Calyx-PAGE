@@ -14,7 +14,7 @@ export const teamMembers = [
     {
         id: '2',
         name: 'Rishi Sharma',
-        role: 'Social Media Manager',
+        role: 'Administrative Executive',
         bio: 'Strategic social media expert managing Synapse\'s digital presence across all platforms.',
         image: '/rishi.JPG',
         works: ['Social Media Strategy', 'Content Creation', 'Brand Management', 'Community Engagement'],
