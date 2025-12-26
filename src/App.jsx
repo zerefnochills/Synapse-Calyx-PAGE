@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import MeetOurPanel from './pages/MeetOurPanel';
@@ -39,6 +40,7 @@ function App() {
 
   return (
     <div className="min-h-screen w-full">
+      <SpeedInsights />
       {!entered && <LandingPage onEnter={() => setEntered(true)} />}
       {entered && (
         <Layout>
