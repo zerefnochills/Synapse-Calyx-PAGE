@@ -2,7 +2,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { teamMembers } from '../data/team';
-import { ArrowLeft, Mail, Briefcase, Linkedin, Instagram, Github, Dribbble, FileDown } from 'lucide-react';
+import { ArrowLeft, Mail, Briefcase, Linkedin, Instagram, Github, Dribbble, FileDown, Eye } from 'lucide-react';
+import { FaBehance } from 'react-icons/fa';
 
 const PanelMember = () => {
     const { id } = useParams();
@@ -83,16 +84,25 @@ const PanelMember = () => {
                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                 <FileDown size={20} className="text-accent" /> Resume
                             </h3>
-                            <a
-                                href={member.resume}
-                                download
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-primary/10 border border-primary/30 hover:bg-primary hover:text-white transition-all duration-300 font-medium"
-                            >
-                                <FileDown size={20} />
-                                Download Resume
-                            </a>
+                            <div className="flex gap-3 flex-wrap">
+                                <a
+                                    href={member.resume}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-primary/10 border border-primary/30 hover:bg-primary hover:text-white transition-all duration-300 font-medium"
+                                >
+                                    <Eye size={20} />
+                                    Preview Resume
+                                </a>
+                                <a
+                                    href={member.resume}
+                                    download
+                                    className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 font-medium"
+                                >
+                                    <FileDown size={20} />
+                                    Download PDF
+                                </a>
+                            </div>
                         </div>
                     )}
 
@@ -109,7 +119,8 @@ const PanelMember = () => {
                                         linkedin: Linkedin,
                                         instagram: Instagram,
                                         github: Github,
-                                        dribbble: Dribbble
+                                        dribbble: Dribbble,
+                                        behance: FaBehance
                                     }[platform.toLowerCase()];
 
                                     if (!Icon) return null;

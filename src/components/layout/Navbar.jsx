@@ -16,13 +16,31 @@ const Navbar = () => {
         setIsOpen(false);
     }, [location]);
 
+    // Smooth scroll handler for hash links
+    const handleHashClick = (e, href) => {
+        e.preventDefault();
+        const hash = href.split('#')[1];
+        const element = document.getElementById(hash);
+
+        if (element) {
+            toggleMenu();
+            // Small delay to let menu close animation start
+            setTimeout(() => {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+    };
+
     const navLinks = [
         { name: 'Home', href: '/#home' },
         { name: 'Services', href: '/#services' },
         { name: 'Work', href: '/#work' },
         { name: 'About', href: '/#about' },
         { name: 'The Panel', href: '/panel' },
-        { name: 'Contact', href: '/#contact' },
+        { name: 'Contact', href: '/#social' },
     ];
 
     const sidebarVars = {
@@ -144,7 +162,7 @@ const Navbar = () => {
                                                 <a
                                                     href={link.href}
                                                     className="group flex items-center text-2xl md:text-4xl font-sans font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50 hover:to-white transition-all tracking-tighter cursor-pointer hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] py-4"
-                                                    onClick={toggleMenu}
+                                                    onClick={(e) => handleHashClick(e, link.href)}
                                                 >
                                                     {link.name}
                                                 </a>

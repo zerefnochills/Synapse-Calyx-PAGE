@@ -20,8 +20,8 @@ export const teamMembers = [
         works: ['Social Media Strategy', 'Content Creation', 'Brand Management', 'Community Engagement'],
         contact: 'rishisharma.edu@gmail.com',
         description: 'Rishi orchestrates Synapse\'s entire social media ecosystem, crafting compelling narratives and managing our presence across all digital platforms. With a keen eye for trends and audience engagement, he ensures our brand voice remains consistent, authentic, and impactful. From content strategy to community management, Rishi transforms our creative work into stories that resonate with our audience.',
-        resume: '/resumes/rishi-sharma.pdf',
-        socials: { linkedin: '$', github: '#' }
+        resume: '/resumes/Resume.pdf',
+        socials: { linkedin: 'https://www.linkedin.com/in/rishikesh-kashyap-518229383?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', Instagram: 'https://www.instagram.com/rsh.vrnce_?igsh=aGttMzczaXh4MTJo&utm_source=qr', Behance: 'https://behance.net/rshvrnce' }
     },
     {
         id: '3',

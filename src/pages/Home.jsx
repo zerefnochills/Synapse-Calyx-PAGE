@@ -1,7 +1,8 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Instagram, Linkedin, Twitter, Dribbble, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, Instagram, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
+import { FaBehance } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Lightbox from '../components/ui/Lightbox';
 import SynapseAI from '../components/ui/SynapseAI';
@@ -230,7 +231,7 @@ const Home = () => {
                     {[
                         { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/synapse.cx?igsh=MXNvcmcxbXhsYmhkMw==' },
                         { name: 'LinkedIn', icon: Linkedin, url: 'https://www.linkedin.com/company/synapse-calyx/' },
-                        { name: 'Behance', icon: Dribbble, url: 'http://behance.net/teamsynapse' },
+                        { name: 'Behance', icon: FaBehance, url: 'http://behance.net/teamsynapse' },
                         { name: 'X', icon: Twitter, url: 'https://x.com/synapse_calyx?s=21' }
                     ].map((social) => (
                         <a
