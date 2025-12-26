@@ -62,7 +62,7 @@ export const teamMembers = [
         name: 'Garima Soni',
         role: 'Sales Executive',
         bio: 'Driving business growth through strategic client relationships and innovative sales solutions.',
-        image: '/Member.jpeg',
+        image: '/Garima.jpg',
         works: ['Professional Sales Manager', '', '', ''],
         contact: 'garimasoni861@gmail.com',
         description: 'Garima is a dynamic sales professional who excels at building lasting client relationships and identifying new business opportunities. With a strategic approach to sales and deep understanding of client needs, she drives revenue growth while ensuring customer satisfaction. Her expertise in consultative selling and market analysis helps Synapse Calyx expand its reach and deliver value to clients across diverse industries.',
