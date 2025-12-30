@@ -40,7 +40,7 @@ export const teamMembers = [
         role: 'Executive Graphic Designer',
         bio: 'Crafting pixel-perfect interface with a focus on accessibility and motion.',
         image: '/Bilal.png',
-        works: ['Spectra App', 'Lumina Site'],
+        works: ["NOVAE's chief executive", 'Spectra App', 'Lumina Site'],
         contact: 'Bilalansari123@gmail.com',
         description: 'Bilal is a master of visual communication, crafting pixel-perfect designs that blend aesthetics with functionality. As Executive Graphic Designer, he creates stunning visual identities, marketing materials, and brand assets that elevate every project with precision and creative excellence.',
         socials: { LinkedIN: 'https://www.linkedin.com/in/bilallxo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', Instagram: 'https://www.instagram.com/bilall.fx?igsh=MTVicGY2bjd3bmk4Yg==', Behance: 'behance.net/bilallxo' }
