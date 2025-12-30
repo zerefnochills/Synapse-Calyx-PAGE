@@ -43,7 +43,7 @@ export const teamMembers = [
         works: ['Spectra App', 'Lumina Site'],
         contact: 'Bilalansari123@gmail.com',
         description: 'Bilal is a master of visual communication, crafting pixel-perfect designs that blend aesthetics with functionality. As Executive Graphic Designer, he creates stunning visual identities, marketing materials, and brand assets that elevate every project with precision and creative excellence.',
-        socials: { LinkedIN: '#', Instagram: '', Behance: '' }
+        socials: { LinkedIN: 'https://www.linkedin.com/in/bilallxo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', Instagram: 'https://www.instagram.com/bilall.fx?igsh=MTVicGY2bjd3bmk4Yg==', Behance: 'behance.net/bilallxo' }
     },
 
     {
