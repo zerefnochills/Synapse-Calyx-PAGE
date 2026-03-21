@@ -1,0 +1,30 @@
+/* Layout.module.css */
+
+.main {
+  min-height: 100vh;
+  animation: pageEnter 0.4s ease;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reading progress bar */
+.readingProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6c5fff, #2ddcb4);
+  z-index: 200;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}

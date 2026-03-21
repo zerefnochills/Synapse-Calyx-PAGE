@@ -1,10 +1,13 @@
 
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { useEffect } from 'react';
-import Lenis from 'lenis'; // Import Lenis directly
+import { useState, useEffect } from 'react';
+import Lenis from 'lenis';
+import layoutStyles from './Layout.module.css';
 
 const Layout = ({ children }) => {
+    const [scrollPct, setScrollPct] = useState(0);
+
     useEffect(() => {
         const lenis = new Lenis({
             duration: 1.2,
@@ -24,27 +27,32 @@ const Layout = ({ children }) => {
         };
     }, []);
 
-    return (
-        <div className="min-h-screen flex flex-col text-ink relative overflow-hidden selection:bg-white selection:text-black">
-            {/* Custom Background Image - GPU Accelerated */}
-            <div className="fixed inset-0 z-0" style={{ willChange: 'transform' }}>
-                <img
-                    src="/background.jpg"
-                    alt=""
-                    className="w-full h-full object-cover blur-sm scale-105"
-                    style={{ transform: 'translateZ(0)', willChange: 'transform' }}
-                />
-                {/* Dark overlay for readability */}
-                <div className="absolute inset-0 bg-black/70" style={{ transform: 'translateZ(0)' }}></div>
-            </div>
+    // Reading progress bar
+    useEffect(() => {
+        const onScroll = () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            setScrollPct(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
-            {/* Noise/Grain Overlay */}
-            <div className="fixed inset-0 pointer-events-none z-[1]">
-                <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.06'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}></div>
-            </div>
+    return (
+        <div className="noise-overlay min-h-screen flex flex-col relative" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-ink)' }}>
+            {/* Reading progress bar */}
+            <div className={layoutStyles.readingProgress} style={{ width: `${scrollPct}%` }} />
+
+            {/* Subtle top gradient accent */}
+            <div
+                className="fixed inset-0 pointer-events-none z-0"
+                style={{
+                    background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(123,108,183,0.08) 0%, transparent 70%)',
+                }}
+            />
 
             <Navbar />
-            <main className="flex-grow pt-[80px] z-10 relative">
+            <main className="flex-grow pt-[72px] z-10 relative">
                 {children}
             </main>
             <Footer />

@@ -1,251 +1,349 @@
-
-import { useState, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Instagram, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
-import { FaBehance } from 'react-icons/fa';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import Lightbox from '../components/ui/Lightbox';
-import SynapseAI from '../components/ui/SynapseAI';
-import WorkFilter from '../components/ui/WorkFilter';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import s from './Home.module.css';
 
-const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-};
+const TICKER_ITEMS = [
+    'Web Development', 'UI / UX Design', 'AI Automation',
+    'Graphic Design', 'Video Editing', 'Motion Graphics',
+    'Brand Identity', 'System Architecture',
+];
 
-const works = [
-    { title: '', cat: 'Identity + Web', img: '/Free Cardboard Gold Logo Mockup.jpg' },
-    { title: '', cat: 'UI/UX + Motion', img: '/Branding Presentation-03.png' },
-    { title: '', cat: 'Automation', img: '/Branding Presentation-01.png' }
+const VISION_CARDS = [
+    {
+        num: '',
+        title: 'Autonomous Operations',
+        text: 'The best digital systems run without human intervention. Workflows that trigger workflows. Pipelines that self-optimize. Infrastructure that monitors and heals itself. We build things that work at 3am without supervision.',
+    },
+    {
+        num: '',
+        title: 'Interface as Identity',
+        text: 'As products commoditize, the interface becomes the product. The feel of a button, the rhythm of a transition, the density of information — these are brand decisions and revenue decisions made with the same precision.',
+    },
+    {
+        num: '',
+        title: 'Contextual Intelligence',
+        text: "Static websites are digital tombstones. The future belongs to systems that understand context: who is visiting, what they need, what they've done, and what they're most likely to do next. We build entities that learn.",
+    },
+];
+
+const BLOG_CARDS = [
+    {
+        label: 'AI',
+        date: 'Jan 2026',
+        readTime: '6 min read',
+        title: 'AI Automation for Small Businesses: What Actually Works',
+        excerpt: "Not every automation is worth building. After deploying pipelines for 20+ businesses, here's what delivers ROI and what's pure theater.",
+        tags: ['AI', 'Automation'],
+    },
+    {
+        label: 'UX',
+        date: 'Dec 2025',
+        readTime: '5 min read',
+        title: 'The Case Against WordPress in 2026',
+        excerpt: "WordPress still powers 40% of the web. It shouldn't power yours. A technical breakdown of what modern founders should actually use.",
+        tags: ['Tech', 'Web Dev'],
+    },
+    {
+        label: '↗',
+        date: 'Nov 2025',
+        readTime: '7 min read',
+        title: 'How We Built a Real-Time Dashboard With Socket.io',
+        excerpt: 'A complete technical walkthrough of the Nexus Protocol project — from event-driven architecture design to production deployment.',
+        tags: ['Engineering', 'Case Study'],
+    },
 ];
 
 const Home = () => {
-    const [selectedWork, setSelectedWork] = useState(null);
-    const [filter, setFilter] = useState('All');
+    useScrollReveal('.reveal');
 
-    const filteredWorks = useMemo(() => {
-        if (filter === 'All') return works;
-        return works.filter(work => work.cat.includes(filter));
-    }, [filter]);
+    const heroGridRef = useRef(null);
 
-    const handleWorkClick = useCallback((work, index) => {
-        setSelectedWork({ ...work, index });
+    // Parallax hero grid
+    useEffect(() => {
+        const onScroll = () => {
+            if (heroGridRef.current) {
+                heroGridRef.current.style.transform = `translateY(${window.scrollY * 0.15}px)`;
+            }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    const handleCloseLightbox = useCallback(() => {
-        setSelectedWork(null);
+    // Animated counters
+    useEffect(() => {
+        const els = document.querySelectorAll('[data-count]');
+        if (!els.length) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e) => {
+                    if (e.isIntersecting) {
+                        const target = parseInt(e.target.dataset.count, 10);
+                        let current = 0;
+                        const step = target / 50;
+                        const timer = setInterval(() => {
+                            current = Math.min(current + step, target);
+                            e.target.textContent = Math.floor(current);
+                            if (current >= target) clearInterval(timer);
+                        }, 25);
+                        observer.unobserve(e.target);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        els.forEach((el) => observer.observe(el));
+        return () => observer.disconnect();
     }, []);
 
     return (
-        <div className="space-y-40 pb-20 text-white selection:bg-white selection:text-black">
-            <Lightbox selectedWork={selectedWork} onClose={handleCloseLightbox} />
-            <SynapseAI />
+        <div style={{ backgroundColor: '#07090e', minHeight: '100vh' }}>
 
-            {/* CTA Button */}
-            <Link
-                to="/start-project"
-                className="fixed top-6 right-20 z-40 hidden md:flex items-center gap-2 px-6 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono uppercase tracking-widest text-white hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-md"
-            >
-                Start a Project
-            </Link>
+            {/* ════════════════════════════════════════════
+          HERO
+          ════════════════════════════════════════════ */}
+            <section className={s.hero}>
+                <div className={s.heroGrid} ref={heroGridRef} />
 
-            {/* Hero Section */}
-            <section id="home" className="min-h-screen flex items-center p-6 relative">
+                <div className={s.heroEyebrow}>Synapse Calyx</div>
 
-                <div className="max-w-[90vw] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div className="order-2 lg:order-1">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                        >
-                            <h1 className="text-[clamp(3rem,12vw,8rem)] leading-[0.8] font-bold tracking-tighter mb-8 text-white mix-blend-exclusion">
-                                SYNAPSE<br />CALYX
-                            </h1>
-                        </motion.div>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4, duration: 0.8 }}
-                            className="flex flex-col gap-6 md:flex-row md:items-center"
-                        >
-                            <p className="text-lg md:text-xl font-light text-white/60 max-w-md leading-relaxed">
-                                Precision engineering for the digital age. We forge automated systems and monochrome aesthetics.
-                            </p>
-                            <div className="flex gap-4 items-center flex-wrap">
-                                <a href="#work" className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500 group flex-shrink-0">
-                                    <ArrowRight size={24} className="group-hover:-rotate-45 transition-transform duration-500" />
-                                </a>
-                                <a
-                                    href="https://forms.gle/dKLqcXTezEbQz6359"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-5 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group min-h-[48px]"
-                                >
-                                    Join Our Team
-                                    <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                                </a>
-                            </div>
-                        </motion.div>
+                <h1 className={s.heroTitle}>
+                    Design.<br />Intelligence.<br />
+                    <em className={s.heroTitleEm}>Systems.</em>
+                </h1>
+
+                <p className={s.heroSub}>
+                    A founder-led digital studio operating at the intersection of design,
+                    engineering, and structured thinking. We don't build websites — we architect
+                    living systems.
+                </p>
+
+                <div className={s.heroActions}>
+                    <Link to="/works" className={s.btnPrimary}>View Our Works →</Link>
+                    <Link to="/order" className={s.btnGhost}>Start a Project <span>↗</span></Link>
+                </div>
+
+                <div className={s.heroScroll}>
+                    <div className={s.heroScrollLine} />
+                    <span className={s.heroScrollSpan}>Scroll to read</span>
+                </div>
+
+            </section>
+
+            {/* ════════════════════════════════════════════
+          TICKER
+          ════════════════════════════════════════════ */}
+            <div className={s.ticker}>
+                <div className={s.tickerInner}>
+                    {/* Duplicate items for seamless loop */}
+                    {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+                        <span key={i} className={s.tickerSpan}>
+                            {item}<em className={s.tickerDivider}>///</em>
+                        </span>
+                    ))}
+                </div>
+            </div>
+
+            {/* ════════════════════════════════════════════
+          ORIGIN — NARRATIVE
+          ════════════════════════════════════════════ */}
+            <section className={s.origin}>
+                <div className={s.originInner}>
+
+                    <div className={`${s.originLeft} reveal`}>
+                        <div className={s.originIndex}></div>
+                        <h2 className={s.originTitle}>
+                            How<br /><span className={s.originTitleSpan}>Synapse</span><br />Started
+                        </h2>
+                        <blockquote className={s.originQuote}>
+                            "Synapse didn't begin as a company. It began as a frustration."
+                        </blockquote>
                     </div>
 
-                    <div className="order-1 lg:order-2 flex justify-end">
-                        <div className="relative w-full aspect-square max-w-[500px]">
-                            {/* Logo Static in Center */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5, duration: 1 }}
-                                className="absolute inset-0 rounded-full overflow-hidden"
-                            >
-                                <img
-                                    src="/SC_pfp.jpg"
-                                    alt="Synapse Logo"
-                                    className="w-full h-full object-cover rounded-full mix-blend-screen brightness-90 contrast-125"
-                                    loading="eager"
-                                    decoding="async"
-                                />
-                            </motion.div>
+                    <div className={s.originRight}>
+                        <div className={`${s.narrativeBlock} reveal`} data-delay="1">
+                            <div className={s.narrativeNum}></div>
+                            <h3 className={s.narrativeTitle}>
+                                The Problem With Beautiful Things That Don't Work
+                            </h3>
+                            <p className={s.narrativeText}>
+                                I was tired of digital work that looked impressive but lacked depth.
+                                Beautiful visuals without architecture. Animation without intention.
+                                Sites that won awards and lost clients.
+                            </p>
+                            <p className={s.narrativeText}>
+                                The industry had optimized for the portfolio screenshot, not the
+                                Sunday morning when the server goes down, not the conversion rate
+                                after the launch buzz fades.
+                            </p>
+                            <div className={s.narrativePullquote}>
+                                "I didn't want to build another agency. I wanted to build a system —
+                                something that prioritizes clarity, structure, and long-term thinking."
+                            </div>
+                            <p className={s.narrativeText}>
+                                Synapse was born from that decision. Not from a pitch deck or a business
+                                plan. From a conviction that the digital world deserved better foundations.
+                            </p>
                         </div>
                     </div>
+
                 </div>
             </section>
 
-            {/* Services - Swiss Grid */}
-            <section id="services" className="px-6 max-w-[90vw] mx-auto border-t border-white/20 pt-12">
-                <div className="flex justify-between items-baseline mb-20">
-                    <span className="text-xs font-mono uppercase tracking-widest text-white/50">(01)</span>
-                    <h2 className="text-4xl md:text-6xl font-light tracking-tight">Capabilities</h2>
+            {/* ════════════════════════════════════════════
+          VISION
+          ════════════════════════════════════════════ */}
+            <section className={s.vision}>
+                <div className={s.visionHeader}>
+                    <h2 className={`${s.visionTitle} reveal`}>What We're<br />Building</h2>
+                    <p className={`${s.visionIntro} reveal`} data-delay="2">
+                        The goal is not to chase trends. The goal is to build foundations.
+                        Architecture before aesthetics. Systems before shortcuts.
+                        Long-term leverage over short-term hype.<br /><br />
+                        In an era dominated by AI and automation, clarity becomes the real
+                        competitive advantage. Synapse is positioning itself for that era.
+                    </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-                    {[
-                        { title: 'Web Development', desc: 'Full-stack engineering & React applications.', cat: 'Code' },
-                        { title: 'UI/UX Design', desc: 'Interface systems & user experience strategy.', cat: 'Design' },
-                        { title: 'AI Automation', desc: 'Workflow optimization & intelligent pipelines.', cat: 'Intelligence' },
-                        { title: 'Graphic Design / GFX', desc: 'Visual identity, posters & aesthetic assets.', cat: 'Visual' },
-                        { title: 'Video Editing', desc: 'Post-production & motion graphics.', cat: 'Motion' }
-                    ].map((service, index) => (
-                        <motion.article
-                            key={index}
-                            variants={fadeInUp}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className="group relative border-t border-white/10 pt-8 hover:border-white transition-colors cursor-default"
-                        >
-                            <span className="absolute top-0 right-0 text-[10px] font-mono uppercase tracking-widest text-white/30 opacity-0 group-hover:opacity-100 transition-opacity mt-2">{service.cat}</span>
-                            <h3 className="text-3xl font-light mb-4 text-white group-hover:text-white transition-colors">{service.title}</h3>
-                            <p className="text-white/50 font-light leading-relaxed max-w-xs">{service.desc}</p>
-                        </motion.article>
+                <div className={s.visionCards}>
+                    {VISION_CARDS.map((card, i) => (
+                        <div key={i} className={`${s.visionCard} reveal`} data-delay={String(i + 1)}>
+                            <div className={s.visionCardNum}>{card.num}</div>
+                            <h3 className={s.visionCardTitle}>{card.title}</h3>
+                            <p className={s.visionCardText}>{card.text}</p>
+                            <div className={s.visionCardLine} />
+                        </div>
                     ))}
                 </div>
             </section>
 
-            {/* Work */}
-            <section id="work" className="px-6 max-w-[90vw] mx-auto">
-                <div className="flex justify-between items-end mb-20 border-t border-white/20 pt-12">
-                    <div className="flex gap-4 items-baseline">
-                        <span className="text-xs font-mono uppercase tracking-widest text-white/50">(02)</span>
-                        <h2 className="text-4xl md:text-6xl font-light tracking-tight">Works</h2>
+            {/* ════════════════════════════════════════════
+          FOUNDER
+          ════════════════════════════════════════════ */}
+            <section className={s.founder}>
+                <div className={s.founderInner}>
+
+                    <div>
+                        <div className={`${s.founderBadge} reveal`}>
+                            <div className={s.founderBadgeDot} />
+                        </div>
+                        <h2 className={`${s.founderTitle} reveal`}>Deepak —<br />Founder &amp; CEO</h2>
+                        <p className={`${s.founderBody} reveal`} data-delay="1">
+                            My name is Deepak. I founded Synapse Calyx with a simple intention:
+                            to build something structured, intentional, and intelligent.
+                        </p>
+                        <p className={`${s.founderBody} reveal`} data-delay="2">
+                            To me, design is not decoration. It's structured thinking made visible.
+                            Technology is not just functionality — it's leverage when used correctly.
+                        </p>
+                        <p className={`${s.founderBody} reveal`} data-delay="3">
+                            I believe in precision over noise, depth over surface-level aesthetics,
+                            and systems over shortcuts. Synapse reflects that mindset in everything we build.
+                        </p>
+                        <blockquote className={`${s.founderQuote} reveal`} data-delay="4">
+                            "We are not here to be loud. We are here to be intentional."
+                        </blockquote>
                     </div>
-                    <WorkFilter currentFilter={filter} setFilter={setFilter} />
-                </div>
 
-                <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <AnimatePresence>
-                        {filteredWorks.map((work, i) => (
-                            <motion.div
-                                layout
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                key={work.title}
-                                onClick={() => handleWorkClick(work, i)}
-                                className="group relative aspect-[16/10] overflow-hidden bg-white/5 cursor-pointer"
-                            >
-                                <img src={work.img} alt={work.title} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" loading="lazy" decoding="async" />
-                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <div className="text-center">
-                                        <h3 className="text-3xl font-light text-white mb-2">{work.title}</h3>
-                                        <p className="text-xs uppercase tracking-widest text-white/70">{work.cat}</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </motion.div>
-            </section>
-
-            {/* About */}
-            <section id="about" className="px-6 max-w-[90vw] mx-auto border-t border-white/20 pt-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <div className="lg:col-span-4">
-                        <span className="text-xs font-mono uppercase tracking-widest text-white/50">(03) About</span>
-                    </div>
-                    <div className="lg:col-span-8">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="mb-12 rounded-lg overflow-hidden border border-white/10"
-                        >
-                            <img src="/linkdin banner bgv1.jpg" alt="Synapse Banner" className="w-full h-auto object-cover" loading="lazy" decoding="async" />
-                        </motion.div>
-
-                        <h2 className="text-4xl md:text-6xl font-light leading-snug mb-12">
-                            We are a digital laboratory fusing <span className="text-white/40">creative intelligence</span> with <span className="text-white/40">code</span>.
-                        </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 text-white/60 font-light leading-relaxed">
-                            <p>
-                                Synapse Calyx isn't just a design agency. We are architects of the abstract, operating at the intersection of aesthetic purity and functional automation.
-                            </p>
-                            <div>
-                                <p className="mb-8">
-                                    Our philosophy is simple: Eliminate the noise. Amplify the signal.
-                                </p>
-                                <div className="flex flex-col sm:flex-row gap-6 items-start">
-                                    <Link to="/panel" className="inline-block border-b border-white text-white pb-1 hover:text-white/50 hover:border-white/50 transition-colors">
-                                        Meet The Panel
-                                    </Link>
-                                    <a
-                                        href="https://forms.gle/dKLqcXTezEbQz6359"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#1a1a1a] to-[#3a3a3a] hover:from-white hover:to-accent hover:text-black border border-white/20 hover:border-white transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] group"
-                                    >
-                                        Apply Now
-                                        <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                                    </a>
-                                </div>
-                            </div>
+                    <div className={`${s.founderAvatarCol} reveal`} data-delay="2">
+                        <div className={s.founderAvatarFrame}>
+                            {/* Photo slot — add <img> here when available */}
+                        </div>
+                        <div className={s.founderAvatarCaption}>
+                            <strong>Deepak Pandey</strong>
+                            Founder &amp; Chief Architect<br />
+                            Synapse Calyx Studio
                         </div>
                     </div>
+
                 </div>
             </section>
 
-            {/* Socials */}
-            <section id="social" className="px-6 max-w-[90vw] mx-auto pt-40 text-center">
-                <h2 className="text-[clamp(3rem,10vw,10vw)] font-bold tracking-tighter opacity-10 select-none pointer-events-none mb-6 md:mb-0">CONTACT</h2>
-                <div className="flex justify-center gap-6 md:gap-8 md:-mt-16 relative z-10">
-                    {[
-                        { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/synapse.cx?igsh=MXNvcmcxbXhsYmhkMw==' },
-                        { name: 'LinkedIn', icon: Linkedin, url: 'https://www.linkedin.com/company/synapse-calyx/' },
-                        { name: 'Behance', icon: FaBehance, url: 'http://behance.net/teamsynapse' },
-                        { name: 'X', icon: Twitter, url: 'https://x.com/synapse_calyx?s=21' }
-                    ].map((social) => (
-                        <a
-                            key={social.name}
-                            href={social.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all duration-300"
-                        >
-                            <social.icon size={20} />
+            {/* ════════════════════════════════════════════
+          BLOG / INTELLIGENCE REPORTS
+          ════════════════════════════════════════════ */}
+            <section className={s.blog}>
+                <div className={`${s.blogHeader} reveal`}>
+                    <h2 className={s.blogTitle}>
+                        Intelligence<br /><span className={s.blogTitleSpan}>Reports</span>
+                    </h2>
+                    <a href="#" className={s.blogViewAll}>Read All Articles →</a>
+                </div>
+
+                {/* Featured post */}
+                <a href="#" className={`${s.blogFeatured} reveal`}>
+                    <div className={s.blogFeaturedImage}>
+                        <div className={s.blogFeaturedImageBadge}>Featured Article</div>
+                    </div>
+                    <div className={s.blogFeaturedContent}>
+                        <div>
+                            <div className={s.blogFeaturedMeta}>
+                                <span>Feb 2026</span>
+                                <span>8 min read</span>
+                            </div>
+                            <h3 className={s.blogFeaturedTitle}>
+                                Why Most Digital Agencies Are Selling You the Wrong Thing
+                            </h3>
+                            <p className={s.blogFeaturedExcerpt}>
+                                The industry has optimized for the screenshot moment — the launch day,
+                                the Dribbble post, the awards submission. But real systems are judged
+                                by what happens six months later when nobody's watching. Here's what
+                                we actually measure at Synapse, and why it matters more than aesthetics.
+                            </p>
+                            <div className={s.blogFeaturedTags}>
+                                <span className={s.blogTag}>Strategy</span>
+                                <span className={s.blogTag}>Systems Thinking</span>
+                                <span className={s.blogTag}>Agency Model</span>
+                            </div>
+                        </div>
+                        <span className={s.blogFeaturedReadmore}>Read Full Article →</span>
+                    </div>
+                </a>
+
+                {/* 3-column grid */}
+                <div className={s.blogGrid}>
+                    {BLOG_CARDS.map((card, i) => (
+                        <a href="#" key={i} className={`${s.blogCard} reveal`} data-delay={String(i + 1)}>
+                            <div className={s.blogCardImage}>
+                                <div className={s.blogCardImageLabel}>{card.label}</div>
+                            </div>
+                            <div className={s.blogCardBody}>
+                                <div className={s.blogCardMeta}>
+                                    <span>{card.date}</span>
+                                    <span>{card.readTime}</span>
+                                </div>
+                                <h3 className={s.blogCardTitle}>{card.title}</h3>
+                                <p className={s.blogCardExcerpt}>{card.excerpt}</p>
+                                <div className={s.blogCardFooter}>
+                                    <div className={s.blogCardTags}>
+                                        {card.tags.map((tag) => (
+                                            <span key={tag} className={s.blogTag}>{tag}</span>
+                                        ))}
+                                    </div>
+                                    <span className={s.blogCardRead}>Read →</span>
+                                </div>
+                            </div>
                         </a>
                     ))}
                 </div>
             </section>
+
+            {/* ════════════════════════════════════════════
+          CTA
+          ════════════════════════════════════════════ */}
+            <section className={s.ctaSection}>
+                <div className={`${s.ctaLabel} reveal`}>Ready to build something real?</div>
+                <h2 className={`${s.ctaTitle} reveal`}>
+                    Explore<br />Synapse
+                </h2>
+                <div className={`${s.ctaActions} reveal`} data-delay="2">
+                    <Link to="/works" className={s.ctaGhostBtn}>View Works</Link>
+                    <Link to="/order" className={s.ctaPrimaryBtn}>Start a Project</Link>
+                </div>
+            </section>
+
         </div>
     );
 };

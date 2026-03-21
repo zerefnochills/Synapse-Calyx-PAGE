@@ -8,7 +8,7 @@ export const teamMembers = [
         image: '/deepak.jpg',
         works: ["Experienced Python Developer & Frontend Dev --", 'Synapse Calyx Web', 'Waste-Exchange System', 'Drowsiness Detection System'],
         contact: 'tech.deepakk@outlook.com',
-        description: 'Deepak leads the creative and technical direction at Synapse, combining expertise in web development, UI/UX design, and Generative AI. With a strong background in Python and frontend technologies, he drives innovation across all projects, ensuring that every digital solution is not only functional but also aesthetically superior.',
+        description: 'As the leader of creative and technical direction at Synapse, I strive to combine my expertise in web development, UI/UX design, and Generative AI to drive innovation in all our projects. With a strong foundation in Python and frontend technologies, I am dedicated to ensuring that every digital solution we create is not only functional but also aesthetically superior. I believe that a truly exceptional digital experience must engage users while effectively meeting their needs, and I am committed to upholding these principles in my work.',
         socials: { linkedin: 'https://www.linkedin.com/in/deepak-pandey-459080369?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', Instagram: 'https://www.instagram.com/deepak.zf?igsh=NnIzZm01cHA5M3dx', Github: 'https://github.com/zerefnochills' }
     },
     {
@@ -70,13 +70,22 @@ export const teamMembers = [
     },
     {
         id: '7',
-        name: 'Janhavi Patil',
-        role: 'Sales Executive',
-        bio: 'Cultivating partnerships and delivering exceptional client experiences through data-driven sales strategies.',
+        name: 'Lakshya Tomar',
+        role: 'Video Editor',
+        bio: 'Bringing static designs to life with fluid animations and 3D integration.',
         image: '/Member.jpeg',
         works: ['', '', '', ''],
-        contact: 'janepat678@gmail.com',
-        description: 'Janhavi brings energy and innovation to the sales team, specializing in lead generation and client engagement. With a keen eye for market trends and a talent for building meaningful connections, she transforms prospects into long-term partners. Her data-driven approach to sales, combined with exceptional communication skills, ensures that every client interaction adds value and strengthens Synapse Calyx\'s market presence.',
+        contact: 'lakshaytomar123@gmail.com',
+        description: 'Lakshay is a skilled video editor and animator who brings technical expertise and creative vision to every project. Specializing in post-production, motion design, and animation, he crafts seamless edits and engaging visual sequences that enhance storytelling and deliver professional-grade content.',
         socials: { linkedin: '#', Github: '#', Twitter: '#' }
+    },
+    {
+        id: '8',
+        name: 'Yamini Gaur',
+        role: 'Sales Executive',
+        bio: 'A results-driven sales executive who blends confidence with clarity to drive growth.',
+        image: '/Yamini.jpeg',
+        description: `Yamini Gaur is a passionate Sales Executive who thrives on building strong, meaningful relationships with her clients. She truly understands the importance of getting to know her customers' needs and takes pride in offering customized solutions that lead to lasting partnerships. Yamini approaches every conversation with confidence and clarity, making sure that her clients feel valued while also driving success for the business. Her blend of professionalism and adaptability allows her to navigate challenges smoothly, all while being dedicated to delivering real, measurable results.`,
+        socials: { portfolio: 'https://yamini-gaur-portfolio.netlify.app/' }
     }
 ];

@@ -7,71 +7,106 @@ const LandingPage = ({ onEnter }) => {
 
     const handleEnter = () => {
         setIsExiting(true);
-        setTimeout(onEnter, 1000); // Wait for exit animation
+        setTimeout(onEnter, 800);
     };
 
     return (
         <AnimatePresence>
             {!isExiting && (
                 <motion.div
-                    className="fixed inset-0 z-[100] flex items-center justify-center cursor-pointer overflow-hidden"
+                    className="fixed inset-0 z-[100] flex items-center justify-center cursor-pointer"
                     onClick={handleEnter}
-                    exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+                    exit={{ opacity: 0, transition: { duration: 0.6, ease: 'easeInOut' } }}
+                    style={{ backgroundColor: '#060810' }}
                 >
-                    {/* Custom Background Image - GPU Accelerated */}
-                    <div className="absolute inset-0" style={{ willChange: 'transform' }}>
-                        <img
-                            src="/background.jpg"
-                            alt=""
-                            className="w-full h-full object-cover blur-sm scale-105"
-                            loading="eager"
-                            style={{ transform: 'translateZ(0)', willChange: 'transform' }}
-                        />
-                        {/* Dark overlay for readability */}
-                        <div className="absolute inset-0 bg-black/80" style={{ transform: 'translateZ(0)' }}></div>
-                    </div>
-
-                    {/* Animated Grain/Noise Overlay */}
-                    <div className="absolute inset-0 opacity-[0.15]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`, transform: 'translateZ(0)' }}></div>
+                    {/* Subtle violet radial glow */}
+                    <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                            background: 'radial-gradient(circle at 50% 50%, rgba(123,108,183,0.08) 0%, transparent 60%)',
+                        }}
+                    />
 
                     <div className="relative text-center z-10 p-6">
                         <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 1, ease: "easeOut" }}
-                            className="mb-8"
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
-                            {/* Place for Logo */}
-                            <img src="/SC_pfp.jpg" alt="Synapse Calyx" className="w-24 h-24  mx-auto grayscale border border-white/20" />
-                        </motion.div>
+                            {/* Logo */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 1, delay: 0.2 }}
+                                className="mb-10"
+                            >
+                                <img
+                                    src="/SC_pfp.jpg"
+                                    alt="Synapse Calyx"
+                                    className="w-16 h-16 rounded-full mx-auto"
+                                    style={{ border: '1.5px solid rgba(123,108,183,0.3)' }}
+                                />
+                            </motion.div>
 
-                        <motion.h1
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.3, duration: 0.8 }}
-                            className="text-4xl md:text-6xl font-black tracking-[0.2em] text-white mb-4 uppercase"
-                        >
-                            Synapse Calyx
-                        </motion.h1>
+                            {/* Title */}
+                            <motion.h1
+                                initial={{ opacity: 0, y: 12 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4, duration: 0.7 }}
+                                style={{
+                                    fontFamily: "'PP Neue Machina', sans-serif",
+                                    fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+                                    fontWeight: 700,
+                                    letterSpacing: '0.15em',
+                                    textTransform: 'uppercase',
+                                    color: '#e8eaf0',
+                                    marginBottom: '1rem',
+                                }}
+                            >
+                                Synapse Calyx
+                            </motion.h1>
 
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.6 }}
-                            className="text-white/50 tracking-widest text-xs md:text-sm uppercase mb-12"
-                        >
-                            Creative Intelligence Meets Digital Evolution
-                        </motion.p>
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.7 }}
+                                style={{
+                                    fontFamily: "'Space Grotesk', sans-serif",
+                                    fontSize: '11px',
+                                    letterSpacing: '0.2em',
+                                    textTransform: 'uppercase',
+                                    color: 'rgba(232,234,240,0.35)',
+                                    marginBottom: '3rem',
+                                }}
+                            >
+                                Creative Intelligence × Digital Systems
+                            </motion.p>
 
-                        <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ delay: 0.8 }}
-                        >
-                            <span className="inline-block px-8 py-3 border border-white text-white tracking-widest text-sm font-bold uppercase hover:bg-white hover:text-black transition-colors duration-300">
-                                Enter Experience
-                            </span>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1 }}
+                            >
+                                <span
+                                    className="inline-block px-8 py-3 rounded-full text-[12px] tracking-[0.15em] uppercase cursor-pointer transition-all duration-300"
+                                    style={{
+                                        fontFamily: "'Space Grotesk', sans-serif",
+                                        color: '#e8eaf0',
+                                        border: '1px solid rgba(123,108,183,0.4)',
+                                        backgroundColor: 'transparent',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.backgroundColor = 'rgba(123,108,183,0.15)';
+                                        e.currentTarget.style.borderColor = 'rgba(123,108,183,0.7)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = 'transparent';
+                                        e.currentTarget.style.borderColor = 'rgba(123,108,183,0.4)';
+                                    }}
+                                >
+                                    Enter
+                                </span>
+                            </motion.div>
                         </motion.div>
                     </div>
                 </motion.div>

@@ -1,0 +1,48 @@
+/* Layout.module.css */
+
+.cursor {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  mix-blend-mode: screen;
+}
+
+.cursorRing {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(124, 111, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.main {
+  min-height: 100vh;
+  animation: pageEnter 0.4s ease;
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) {
+  .cursor, .cursorRing { display: none; }
+  :global(body) { cursor: auto !important; }
+}
+
+/* Hide system cursor when custom cursor is active */
+@media (hover: hover) {
+  :global(body) { cursor: none; }
+  :global(a), :global(button) { cursor: none; }
+}

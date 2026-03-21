@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import Layout from './components/layout/Layout';
@@ -7,10 +7,10 @@ import Home from './pages/Home';
 import MeetOurPanel from './pages/MeetOurPanel';
 import PanelMember from './pages/PanelMember';
 import LandingPage from './components/ui/LandingPage';
-import StartProject from './pages/StartProject';
+import WorksPage from './pages/WorksPage';
+import OrderPage from './pages/OrderPage';
 import MaintenancePage from './components/ui/MaintenancePage';
 import { checkStatus } from './services/api';
-import navBg from './assets/synapse_background.png';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -49,9 +49,12 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/works" element={<WorksPage />} />
+            <Route path="/order" element={<OrderPage />} />
             <Route path="/panel" element={<MeetOurPanel />} />
             <Route path="/panel/:id" element={<PanelMember />} />
-            <Route path="/start-project" element={<StartProject />} />
+            {/* Redirect legacy routes */}
+            <Route path="/start-project" element={<Navigate to="/order" replace />} />
           </Routes>
         </Layout>
       )}
