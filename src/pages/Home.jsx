@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import s from './Home.module.css';
+import { FEATURED_POST, BLOG_CARDS } from '../data/BlogData';
+import BlogThumbnail from '../components/ui/BlogThumbnails';
 
 const TICKER_ITEMS = [
     'Web Development', 'UI / UX Design', 'AI Automation',
@@ -24,33 +26,6 @@ const VISION_CARDS = [
         num: '',
         title: 'Contextual Intelligence',
         text: "Static websites are digital tombstones. The future belongs to systems that understand context: who is visiting, what they need, what they've done, and what they're most likely to do next. We build entities that learn.",
-    },
-];
-
-const BLOG_CARDS = [
-    {
-        label: 'AI',
-        date: 'Jan 2026',
-        readTime: '6 min read',
-        title: 'AI Automation for Small Businesses: What Actually Works',
-        excerpt: "Not every automation is worth building. After deploying pipelines for 20+ businesses, here's what delivers ROI and what's pure theater.",
-        tags: ['AI', 'Automation'],
-    },
-    {
-        label: 'UX',
-        date: 'Dec 2025',
-        readTime: '5 min read',
-        title: 'The Case Against WordPress in 2026',
-        excerpt: "WordPress still powers 40% of the web. It shouldn't power yours. A technical breakdown of what modern founders should actually use.",
-        tags: ['Tech', 'Web Dev'],
-    },
-    {
-        label: '↗',
-        date: 'Nov 2025',
-        readTime: '7 min read',
-        title: 'How We Built a Real-Time Dashboard With Socket.io',
-        excerpt: 'A complete technical walkthrough of the Nexus Protocol project — from event-driven architecture design to production deployment.',
-        tags: ['Engineering', 'Case Study'],
     },
 ];
 
@@ -249,7 +224,7 @@ const Home = () => {
 
                     <div className={`${s.founderAvatarCol} reveal`} data-delay="2">
                         <div className={s.founderAvatarFrame}>
-                            {/* Photo slot — add <img> here when available */}
+                            <img src="/deepak.jpg" alt="Deepak Pandey" style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }} />
                         </div>
                         <div className={s.founderAvatarCaption}>
                             <strong>Deepak Pandey</strong>
@@ -273,41 +248,37 @@ const Home = () => {
                 </div>
 
                 {/* Featured post */}
-                <a href="#" className={`${s.blogFeatured} reveal`}>
-                    <div className={s.blogFeaturedImage}>
-                        <div className={s.blogFeaturedImageBadge}>Featured Article</div>
+                <Link to={`/blog/${FEATURED_POST.slug}`} className={`${s.blogFeatured} reveal`}>
+                    <div className={s.blogFeaturedImage} style={{ padding: 0, overflow: 'hidden', position: 'relative' }}>
+                        <div style={{ position: 'absolute', bottom: '40px', left: '40px', zIndex: 10 }}>
+                            <div className={s.blogFeaturedImageBadge}>Featured Article</div>
+                        </div>
+                        <BlogThumbnail slug={FEATURED_POST.slug} />
                     </div>
                     <div className={s.blogFeaturedContent}>
                         <div>
                             <div className={s.blogFeaturedMeta}>
-                                <span>Feb 2026</span>
-                                <span>8 min read</span>
+                                <span>{FEATURED_POST.date}</span>
+                                <span>{FEATURED_POST.readTime}</span>
                             </div>
-                            <h3 className={s.blogFeaturedTitle}>
-                                Why Most Digital Agencies Are Selling You the Wrong Thing
-                            </h3>
-                            <p className={s.blogFeaturedExcerpt}>
-                                The industry has optimized for the screenshot moment — the launch day,
-                                the Dribbble post, the awards submission. But real systems are judged
-                                by what happens six months later when nobody's watching. Here's what
-                                we actually measure at Synapse, and why it matters more than aesthetics.
-                            </p>
+                            <h3 className={s.blogFeaturedTitle}>{FEATURED_POST.title}</h3>
+                            <p className={s.blogFeaturedExcerpt}>{FEATURED_POST.excerpt}</p>
                             <div className={s.blogFeaturedTags}>
-                                <span className={s.blogTag}>Strategy</span>
-                                <span className={s.blogTag}>Systems Thinking</span>
-                                <span className={s.blogTag}>Agency Model</span>
+                                {FEATURED_POST.tags.map(tag => (
+                                    <span key={tag} className={s.blogTag}>{tag}</span>
+                                ))}
                             </div>
                         </div>
                         <span className={s.blogFeaturedReadmore}>Read Full Article →</span>
                     </div>
-                </a>
+                </Link>
 
                 {/* 3-column grid */}
                 <div className={s.blogGrid}>
                     {BLOG_CARDS.map((card, i) => (
-                        <a href="#" key={i} className={`${s.blogCard} reveal`} data-delay={String(i + 1)}>
-                            <div className={s.blogCardImage}>
-                                <div className={s.blogCardImageLabel}>{card.label}</div>
+                        <Link to={`/blog/${card.slug}`} key={i} className={`${s.blogCard} reveal`} data-delay={String(i + 1)}>
+                            <div className={s.blogCardImage} style={{ padding: 0, overflow: 'hidden' }}>
+                                <BlogThumbnail slug={card.slug} />
                             </div>
                             <div className={s.blogCardBody}>
                                 <div className={s.blogCardMeta}>
@@ -325,7 +296,7 @@ const Home = () => {
                                     <span className={s.blogCardRead}>Read →</span>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </section>

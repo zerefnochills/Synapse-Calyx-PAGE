@@ -4,10 +4,12 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
+import ArticlePage from './pages/ArticlePage';
 import MeetOurPanel from './pages/MeetOurPanel';
 import PanelMember from './pages/PanelMember';
 import LandingPage from './components/ui/LandingPage';
 import WorksPage from './pages/WorksPage';
+import WorksCaseStudy from './pages/WorksCaseStudy';
 import OrderPage from './pages/OrderPage';
 import MaintenancePage from './components/ui/MaintenancePage';
 import { checkStatus } from './services/api';
@@ -50,9 +52,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/works" element={<WorksPage />} />
+            <Route path="/works/:id" element={<WorksCaseStudy />} />
             <Route path="/order" element={<OrderPage />} />
             <Route path="/panel" element={<MeetOurPanel />} />
             <Route path="/panel/:id" element={<PanelMember />} />
+            <Route path="/blog/:slug" element={<ArticlePage />} />
             {/* Redirect legacy routes */}
             <Route path="/start-project" element={<Navigate to="/order" replace />} />
           </Routes>
